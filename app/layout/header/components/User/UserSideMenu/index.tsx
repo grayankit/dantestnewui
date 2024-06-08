@@ -83,7 +83,8 @@ function UserSideMenu() {
 
         if (anilistUser) {
 
-            dispatch(removeUserInfo(undefined))
+            // dispatch(removeUserInfo(undefined))
+            console.log("check the code on line 86")
 
             return
         }

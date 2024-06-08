@@ -1,7 +1,7 @@
 'use client';
 
-import { AnilistInfo } from '@/lib/info';
-import { Provider } from '@/types/api';
+import { AnilistInfo } from '@/app/lib/info';
+import { Provider } from '@/app/types/api';
 import { Accordion, AccordionItem, Image } from '@nextui-org/react';
 import AnimeViewer from '../shared/EpisodeList';
 import { Slider } from '../shared/Slider';
