@@ -1,12 +1,12 @@
 'use client';
 import { useDraggable } from 'react-use-draggable-scroll';
 import React, { useRef, useState, useEffect } from 'react';
-import { Media, ReturnData } from '@/types/api';
+import { Media, ReturnData } from '@/app/types/api';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { SliderCardM } from './SliderCardM';
-import { RelationData } from '@/lib/info';
+import { RelationData } from '@/app/lib/info';
 
 export const SliderM = ({
   data,

@@ -1,11 +1,11 @@
 'use client';
 
-import { ConsumetAnime } from '@/types/consumet';
+import { ConsumetAnime } from '@/app/types/consumet';
 import { Button, Tooltip, Chip, Image, Link } from '@nextui-org/react';
 import { Play, Info } from 'lucide-react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { convertStatus } from '@/lib/utils';
+import { convertStatus } from '@/app/lib/utils';
 
 export default function CasualCard({ anime }: { anime: ConsumetAnime }) {
   const [isHovered, setIsHovered] = useState(false);

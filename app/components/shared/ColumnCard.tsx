@@ -1,6 +1,6 @@
 'use client';
 
-import { Media } from '@/types/api';
+import { Media } from '@/app/types/api';
 import { Image, Link, Tooltip } from '@nextui-org/react';
 import { motion } from 'framer-motion';
 

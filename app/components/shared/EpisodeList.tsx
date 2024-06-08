@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Provider, Episode } from '@/types/api';
+import { Provider, Episode } from '@/app/types/api';
 import {
   Select,
   SelectContent,
@@ -13,7 +13,7 @@ import {
 import { ScrollArea } from '../ui/scroll-area';
 import _ from 'lodash';
 import { Input } from '../ui/input';
-import { AnilistInfo } from '@/lib/info';
+import { AnilistInfo } from '@/app/lib/info';
 import { Play, Grid, List as ListIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {

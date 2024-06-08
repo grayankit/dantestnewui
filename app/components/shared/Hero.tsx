@@ -1,10 +1,10 @@
 'use client';
 
-import { Media, ReturnData } from '@/types/api';
+import { Media, ReturnData } from '@/app/types/api';
 import { Button } from '@nextui-org/react';
 import Image from 'next/image';
 import React from 'react';
-import { getRandomElement, numberToMonth } from '@/lib/utils';
+import { getRandomElement, numberToMonth } from '@/app/lib/utils';
 import RenderVideo from './Video';
 import Link from 'next/link';
 

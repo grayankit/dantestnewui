@@ -18,8 +18,8 @@ import {
   Link,
   Button,
 } from '@nextui-org/react';
-import { ConsumetSearchResult } from '@/types/consumet';
-import useDebounce from '@/hooks/useDebounce';
+import { ConsumetSearchResult } from '@/app/types/consumet';
+import useDebounce from '@/app/hooks/useDebounce';
 import Image from 'next/image';
 
 export default function NavBar() {
