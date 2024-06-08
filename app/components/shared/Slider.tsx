@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { SliderCard } from './SliderCard';
 import { RelationData } from '@/app/lib/info';
+import { ApiDefaultResult } from '@/app/ts/interfaces/apiAnilistDataInterface';
 
 export const Slider = ({
   data,

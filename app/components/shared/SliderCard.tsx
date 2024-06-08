@@ -1,23 +1,24 @@
 'use client';
 
-import { Media } from '@/types/api';
+import { Media } from '@/app/types/api';
 import { Badge } from '../ui/badge';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 // import { Button } from '../ui/button';
 import Link from 'next/link';
-import { RelationData } from '@/lib/info';
+import { RelationData } from '@/app/lib/info';
+import { ApiDefaultResult } from '@/app/ts/interfaces/apiAnilistDataInterface';
 import { Image } from '@nextui-org/react';
 // import { Info, Play } from 'lucide-react';
 
-export const SliderCard = ({ anime }: { anime: Media | RelationData }) => {
+export const SliderCard = ({ anime }: { anime: Media | ApiDefaultResult }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Link
-      className='relative z-50'
-      href={`/info/${anime.id}?releasing=${anime.status === 'RELEASING'}`}
-    >
+    // <Link
+    //   className='relative z-50'
+    //   href={`/info/${anime.id}?releasing=${anime.status === 'RELEASING'}`}
+    // >
 
       <div
         className='relative hover:cursor-pointer hover:scale-105'
@@ -34,7 +35,7 @@ export const SliderCard = ({ anime }: { anime: Media | RelationData }) => {
             src={
               (anime as Media).coverImage
                 ? (anime as Media).coverImage!
-                : (anime as RelationData).image!
+                : (anime as ApiDefaultResult).image!
             }
             alt={
               anime.title.userPreferred! ??
@@ -84,7 +85,7 @@ export const SliderCard = ({ anime }: { anime: Media | RelationData }) => {
             <Badge variant={'secondary'}>
               {(anime as Media).format
                 ? (anime as Media).format
-                : (anime as RelationData).relationType}
+                : (anime as ApiDefaultResult).relationType}
             </Badge>
           </div>
         </div>
@@ -101,12 +102,12 @@ export const SliderCard = ({ anime }: { anime: Media | RelationData }) => {
           <p>
             {(anime as Media).season
               ? (anime as Media).season
-              : (anime as RelationData).status}
+              : (anime as ApiDefaultResult).status}
           </p>
           <div className='h-4 w-[1px] bg-gray-400' />
           <p>{anime.type}</p>
         </div>
       </div>
-    </Link>
+    // </Link>
   );
 };

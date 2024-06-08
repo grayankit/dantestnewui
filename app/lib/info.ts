@@ -2,7 +2,7 @@ import {
   type AnimeData as MappingData,
   convertMappingsToArray,
   MappingItem,
-} from '@/types/anizip';
+} from '@/app/types/anizip';
 import { cache } from './cache';
 
 interface Prms {

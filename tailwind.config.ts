@@ -1,4 +1,4 @@
-import  { Config } from 'tailwindcss';
+import type  { Config } from 'tailwindcss';
 import { nextui } from '@nextui-org/react';
 
 const config = {
@@ -9,6 +9,7 @@ const config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{ts,tsx}'
   ],
   prefix: '',
   theme: {
@@ -84,6 +85,6 @@ const config = {
     require('tailwind-scrollbar-hide'),
     nextui(),
   ],
-}
+}satisfies Config
 
 export default config;

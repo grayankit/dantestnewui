@@ -25,6 +25,7 @@ export interface ApiDefaultResult {
     duration: number,
     season: string,
     seasonYear: number,
+    image: string | null;
     isAdult: Boolean,
     id: number,
     trailer: {
@@ -43,6 +44,7 @@ export interface ApiDefaultResult {
     trending: number,
     popularity: number,
     averageScore: number,
+    relationType: string,
 }
 
 export interface ApiAiringMidiaResults {

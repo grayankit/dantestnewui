@@ -71,6 +71,13 @@ export function defaultApiQueryRequest(otherQueryFields?: unknown, otherMediasFi
                 ${otherQueryFields ? otherQueryFields : ''}
             ) {
                 Page(page: $page, perPage: $perPage){
+                    pageInfo {
+                        total
+                        perPage
+                        currentPage
+                        lastPage
+                        hasNextPage
+                    }
                     media (
                         season: $season, 
                         seasonYear: $seasonYear, 
@@ -632,7 +639,7 @@ export function mediaTrendingApiQueryRequest(otherQueryFields?: unknown, otherMe
                     bannerImage
                     type
                     format
-                    status
+                    status(version: 2)
                     description
                     season
                     seasonYear
