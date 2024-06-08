@@ -48,7 +48,7 @@ import {
 } from '@vidstack/react';
 
 import { VideoLayout } from './components/layouts/video-layout';
-import VideoProgressSave from '@/hooks/VideoProgressSave';
+import VideoProgressSave from '@/app/hooks/VideoProgressSave';
 
 type Props = {
   hls?: string;
