@@ -185,11 +185,11 @@ export default async function MediaPage({ params, searchParams }: { params: { id
 
             <div id={styles.btns_actions_container}>
 
-              <AddToNotificationsButton
+              {/* <AddToNotificationsButton
                 mediaInfo={mediaInfo}
-              />
+              /> */}
 
-              <AddToFavourites.Button
+              {/* <AddToFavourites.Button
                 mediaInfo={mediaInfo as ApiDefaultResult}
               >
 
@@ -201,7 +201,7 @@ export default async function MediaPage({ params, searchParams }: { params: { id
                   <FavouriteFillSvg fill="var(--brand-color)" />
                 </AddToFavourites.SvgIcon>
 
-              </AddToFavourites.Button>
+              </AddToFavourites.Button> */}
 
             </div>
 
