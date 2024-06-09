@@ -3,11 +3,14 @@ import Link from "next/link";
 import React from "react";
 import HeroCarousel from "./components/HomePage/HeroCarouselHomePage";
 import anilist from './api/anilistMedias';
+import { Hero } from "./components/shared/Hero";
 import NavigationThroughMedias from "./components/HomePage/NavigationThroughMedias";
 import parse from "html-react-parser"
 import NewestMediaSection from "./components/HomePage/NewestMediaSection";
 import MediaRankingSection from "./components/HomePage/MediaRankingSection";
 import { Slider } from "./components/shared/Slider";
+import SideBar from "./components/SideBar";
+import { Star,Flame } from "lucide-react";
 import { ApiAiringMidiaResults, ApiDefaultResult } from "./ts/interfaces/apiAnilistDataInterface";
 import { Metadata } from "next";
 import * as AddToPlaylistButton from "./components/Buttons/AddToFavourites";
@@ -33,12 +36,12 @@ export default async function Home() {
   const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
 
   // section 3
-  const listAnimesTrending = await anilist.getMediaForThisFormat({
-    type: "ANIME",
-    accessToken: userAuthorization
+  // const listAnimesTrending = await anilist.getMediaForThisFormat({
+  //   type: "ANIME",
+  //   accessToken: userAuthorization
 
 
-  }) as ApiDefaultResult[]
+  // }) as ApiDefaultResult[]
   const listAnimesTrendingA = await anilist.getMediaForThisFormatA({
     type:"ANIME",
     accessToken:userAuthorization
@@ -46,61 +49,59 @@ export default async function Home() {
 
   // section 1
   // console.log(listAnimesTrending)
-  const listAnimesTrendingWithBackground = listAnimesTrending.filter(item => item.bannerImage)
-  console.log(listAnimesTrendingWithBackground)
+  // const listAnimesTrendingWithBackground = listAnimesTrending.filter(item => item.bannerImage)
+  // console.log(listAnimesTrendingWithBackground)
 
   // section 2
-  const listAnimesReleasingByPopularity = await anilist.getNewReleases({
+  const listAnimesReleasingByPopularity = await anilist.getNewReleasesA({
     type: "ANIME",
     showAdultContent: false,
     status: "RELEASING",
     page: 1,
     perPage: 12,
     accessToken: userAuthorization
-  }).then(
-    res => (res as ApiDefaultResult[])
-  )
+  }) as ReturnData
 
-  // section 3
-  const listMediasToBannerSection = await anilist.getMediaForThisFormat({
-    type: "ANIME",
-    sort: "SCORE_DESC",
-    accessToken: userAuthorization
-  }).then(
-    res => (res as ApiDefaultResult[]).filter((item) => item.isAdult == false)
-  )
+  // // section 3
+  // const listMediasToBannerSection = await anilist.getMediaForThisFormat({
+  //   type: "ANIME",
+  //   sort: "SCORE_DESC",
+  //   accessToken: userAuthorization
+  // }).then(
+  //   res => (res as ApiDefaultResult[]).filter((item) => item.isAdult == false)
+  // )
 
-  const randomIndexForBannerSection = Math.floor(Math.random() * (listMediasToBannerSection?.length || 10)) + 1
+  // const randomIndexForBannerSection = Math.floor(Math.random() * (listMediasToBannerSection?.length || 10)) + 1
 
   // section 4 data
-  const listMediasReleasedToday = await anilist.getReleasingByDaysRange({
-    type: "ANIME",
-    days: 1,
-    perPage: 11,
-    accessToken: userAuthorization
-  }).then(
-    res => ((res as ApiAiringMidiaResults[]).sort((a, b) => a.media.popularity - b.media.popularity).reverse())
-  ).then(res => res.map((item) => item.media))
+  // const listMediasReleasedToday = await anilist.getReleasingByDaysRange({
+  //   type: "ANIME",
+  //   days: 1,
+  //   perPage: 11,
+  //   accessToken: userAuthorization
+  // }).then(
+  //   res => ((res as ApiAiringMidiaResults[]).sort((a, b) => a.media.popularity - b.media.popularity).reverse())
+  // ).then(res => res.map((item) => item.media))
 
   return (
     <>
       <div className='absolute top-0'>
-        {/* <SideBar /> */}
+        <SideBar />
       </div>
       <div className='ml-0 md:ml-16 lg:ml-16 xl:ml-16 2xl:ml-16'>
-        {/* <Hero data={trending} /> */}
+        <Hero data={listAnimesTrendingA} />
         <div className='mt-20 pr-4'>
           {/* <ContinueWatching /> */}
           <h1 className='mb-4 flex gap-1 text-3xl font-bold'>
-            {/* <Flame className='size-9' /> <span>Trending Now</span> */}
+            <Flame className='size-9' /> <span>Trending Now</span>
           </h1>
           <Slider data={listAnimesTrendingA} title='trending' />
         </div>
         <div className='mt-20 pr-4'>
           <h1 className='mb-4 flex gap-1 text-3xl font-bold'>
-            {/* <Star className='size-9' /> All Time Popular */}
+            <Star className='size-9' /> All Time Popular
           </h1>
-          {/* <Slider data={popular} title='popular' /> */}
+          <Slider data={listAnimesReleasingByPopularity} title='popular' />
         </div>
         <div className='flex w-full flex-col justify-between pr-4 md:flex-row lg:flex-row'>
           {/* <ColumnCard media={upcoming?.results?.slice(0, 10)!} /> */}

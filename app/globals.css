@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --max-width: 1380px;
 
   --btn-border-radius: 12px;
 
   /* breakpoints */
-  --breakpoint-sm: 576px;
+  /* --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
@@ -16,21 +16,21 @@
 
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; */
 
   /* fs -- 16px - 18px.. 1.25scl - 1.25scl */
-  --font-size--small-2: clamp(0.72rem, 0.81rem + -0.1vi, 0.79rem);
+  /* --font-size--small-2: clamp(0.72rem, 0.81rem + -0.1vi, 0.79rem);
   --font-size--small-1: clamp(0.889rem, 0.886rem + 0.016vi, 0.9rem);
   --font-size--p: clamp(1rem, 0.964rem + 0.179vi, 1.125rem);
   --font-size--h5: clamp(1.125rem, 1.045rem + 0.402vi, 1.406rem);
   --font-size--h4: clamp(1.266rem, 1.125rem + 0.703vi, 1.758rem);
   --font-size--h3: clamp(1.424rem, 1.203rem + 1.105vi, 2.197rem);
   --font-size--h2: clamp(1.602rem, 1.275rem + 1.635vi, 2.747rem);
-  --font-size--h1: clamp(1.802rem, 1.336rem + 2.33vi, 3.433rem);
+  --font-size--h1: clamp(1.802rem, 1.336rem + 2.33vi, 3.433rem); */
 
   /* colors */
   /* --background: #181818; */
-  --background: #030f16;
+  /* --background: #030f16;
 
   --white-100: #fff;
   --white-75: rgba(255, 255, 255, 0.75);
@@ -53,9 +53,9 @@
   --pink-variant-2: #ff0095;
   --pink-variant-3: #ffa2c8;
 
-}
+} */
 
-* {
+/* * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -68,7 +68,7 @@ body {
 
 body {
   background-color: var(--background);
-}
+} */
 
 /* *:focus{
 
@@ -80,7 +80,7 @@ body {
 
 
 
-p,
+/* p,
 a,
 button,
 li,
@@ -187,9 +187,87 @@ li {
 }
 
 /* SWIPER JS */
-.custom_swiper_list_item>* {
+/* .custom_swiper_list_item>* {
 
   height: inherit;
-  width: inherit !important;
+  width: inherit !important; */
 
-}
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  @layer base {
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 240 10% 3.9%;
+  
+      --card: 0 0% 100%;
+      --card-foreground: 240 10% 3.9%;
+  
+      --popover: 0 0% 100%;
+      --popover-foreground: 240 10% 3.9%;
+  
+      --primary: 240 5.9% 10%;
+      --primary-foreground: 0 0% 98%;
+  
+      --secondary: 240 4.8% 95.9%;
+      --secondary-foreground: 240 5.9% 10%;
+  
+      --muted: 240 4.8% 95.9%;
+      --muted-foreground: 240 3.8% 46.1%;
+  
+      --accent: 240 4.8% 95.9%;
+      --accent-foreground: 240 5.9% 10%;
+  
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 0 0% 98%;
+  
+      --border: 240 5.9% 90%;
+      --input: 240 5.9% 90%;
+      --ring: 240 10% 3.9%;
+  
+      --radius: 0.5rem;
+    }
+  
+    .dark {
+      --background: 153, 96%, 2%;
+      --foreground: 0 0% 98%;
+  
+      --card: 240 10% 3.9%;
+      --card-foreground: 0 0% 98%;
+  
+      --popover: 240 10% 3.9%;
+      --popover-foreground: 0 0% 98%;
+  
+      --primary: 0, 0%, 98%;
+      --primary-foreground: 240 5.9% 10%;
+  
+      --secondary: 240 3.7% 15.9%;
+      --secondary-foreground: 0 0% 98%;
+  
+      --muted: 240 3.7% 15.9%;
+      --muted-foreground: 240 5% 64.9%;
+  
+      --accent: 240 3.7% 15.9%;
+      --accent-foreground: 0 0% 98%;
+  
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 0 0% 98%;
+  
+      --border: 240 3.7% 15.9%;
+      --input: 240 3.7% 15.9%;
+      --ring: 240 4.9% 83.9%;
+    }
+  }
+  
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
+  }
+  *::-webkit-scrollbar {
+    display: none;
+  }

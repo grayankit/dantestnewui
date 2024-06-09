@@ -122,6 +122,125 @@ export default {
       }
     }
   ),
+  getNewReleasesA: cache(
+    async ({
+      type,
+      format,
+      sort,
+      showAdultContent,
+      status,
+      page,
+      perPage,
+      accessToken,
+    }: {
+      type: string;
+      format?: string;
+      sort?: string;
+      showAdultContent?: boolean;
+      status?:
+        | "FINISHED"
+        | "RELEASING"
+        | "NOT_YET_RELEASED"
+        | "CANCELLED"
+        | "HIATUS";
+      page?: number;
+      perPage?: number;
+      accessToken?: string;
+    }) => {
+      const season = getCurrentSeason();
+
+      const headersCustom = await getHeadersWithAuthorization({
+        accessToken: accessToken,
+      });
+
+      try {
+        const graphqlQuery = {
+          query: defaultApiQueryRequest(
+            status ? ", $status: MediaStatus" : undefined,
+            status ? ", status: $status" : undefined
+          ),
+          variables: {
+            type: `${type}`,
+            format: `${
+              (format === "MOVIE" && "MOVIE") ||
+              (type === "MANGA" && "MANGA") ||
+              (type === "ANIME" && "TV")
+            }`,
+            page: page || 1,
+            sort: sort || "POPULARITY_DESC",
+            perPage: perPage || 20,
+            season: status ? undefined : `${season}`,
+            status: status ? status : undefined,
+            seasonYear: `${new Date().getFullYear()}`,
+            showAdultContent: showAdultContent || false,
+          },
+        };
+
+        const { data } = await Axios({
+          url: `${BASE_ANILIST_URL}`,
+          method: "POST",
+          headers: headersCustom,
+          data: graphqlQuery,
+        });
+        const res: any = {
+          currentPage: data.data.Page.pageInfo.currentPage,
+          hasNextPage: data.data.Page.pageInfo.hasNextPage,
+          results: data.data.Page.media
+            .filter((item: any) => item.status !== "NOT_YET_RELEASED")
+            .map((item: any) => ({
+              id: item.id.toString(),
+              malId: item.idMal,
+              title:
+                {
+                  romaji: item.title.romaji,
+                  english: item.title.english,
+                  native: item.title.native,
+                  userPreferred: item.title.userPreferred,
+                } || item.title.romaji,
+              coverImage:
+                item.coverImage.extraLarge ??
+                item.coverImage.large ??
+                item.coverImage.medium,
+              trailer: item.trailer?.id
+                ? `https://www.youtube.com/watch?v=${item.trailer?.id}`
+                : null,
+              description: item.description,
+              status: item.status,
+              bannerImage:
+                item.bannerImage ??
+                item.coverImage.extraLarge ??
+                item.coverImage.large ??
+                item.coverImage.medium,
+              rating: item.averageScore,
+              meanScore: item.meanScore,
+              releaseDate: item.seasonYear,
+              startDate: {
+                year: item.startDate.year,
+                month: item.startDate.month,
+                day: item.startDate.day,
+              },
+              color: item.coverImage?.color,
+              genres: item.genres,
+              totalEpisodes: isNaN(item.episodes)
+                ? 0
+                : item.episodes ?? item.nextAiringEpisode?.episode - 1 ?? 0,
+              duration: item.duration,
+              format: item.format,
+              type: item.type,
+              season: item.season,
+              nextAiringEpisode: item.nextAiringEpisode,
+            })),
+        };
+        return res as ReturnData;
+
+        // return data.data.Page.media as ApiDefaultResult[];
+      } catch (error: any) {
+        console.log(error.response.data);
+
+        return null;
+      }
+    }
+  ),
 
   //SEARCH
   getSeachResults: cache(
