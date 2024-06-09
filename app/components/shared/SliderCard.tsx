@@ -13,24 +13,7 @@ import { Image } from "@nextui-org/react";
 
 export const SliderCard = ({ anime }: { anime: Media | ApiDefaultResult }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [mediaSelect, setMediaSelected] = useState<ApiDefaultResult | null>(
-    null
-  );
 
-  // if (media) {
-  //   setSelectedId(media);
-  //   setMediaSelected(
-  //     mediaList.find(
-  //       (item) => item.id == media
-  //     ) as SetStateAction<ApiDefaultResult | null>
-  //   );
-
-  //   return;
-  // }
-
-  // setSelectedId(null);
-  // setIsTrailerBeeingShown(false);
-  // setMediaSelected(null);
 
   return (
     <Link className="relative z-50" href={`/media/${anime.id}`}>
@@ -122,7 +105,6 @@ export const SliderCard = ({ anime }: { anime: Media | ApiDefaultResult }) => {
           <p>{anime.type}</p>
         </div>
       </div>
-      //{" "}
     </Link>
   );
 };
