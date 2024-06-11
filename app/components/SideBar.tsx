@@ -189,6 +189,16 @@ export default function SideBar() {
                     <span className='font-bold'>Trending</span>
                   </div>
                 </Link>
+                <Link href='/manga'>
+                  <div className='flex items-center gap-1'>
+                    <span>
+                      <Button variant={'outline'} size={'icon'}>
+                        <BookOpen />
+                      </Button>
+                    </span>
+                    <span className='font-bold'>Manga</span>
+                  </div>
+                </Link>
                 <Link href='/popular'>
                   <div className='flex items-center gap-1'>
                     <span>
