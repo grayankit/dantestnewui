@@ -16,7 +16,7 @@ export const SliderCardM = ({ anime }: { anime: Media | RelationData }) => {
   return (
     <Link
       className='relative z-50'
-      href={`/info/${anime.id}?releasing=${anime.status === 'RELEASING'}`}
+      href={`/media/${anime.id}`}
     >
 
       <div
