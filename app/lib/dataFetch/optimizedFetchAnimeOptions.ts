@@ -10,6 +10,7 @@ import { checkAnilistTitleMisspelling } from "../checkApiMediaMisspelling"
 export async function optimizedFetchOnGoGoAnime({ textToSearch, only, isDubbed }: { textToSearch: string, only?: "episodes", isDubbed?: boolean }) {
 
     const titleFixed = stringToOnlyAlphabetic(checkAnilistTitleMisspelling(textToSearch)).toLowerCase()
+    // console.log(titleFixed)
 
     let mediaInfo = await gogoanime.getInfoFromThisMedia({ id: titleFixed }) as MediaInfo
 

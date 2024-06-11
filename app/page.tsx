@@ -1,23 +1,23 @@
-import styles from "./page.module.css";
-import Link from "next/link";
+// import styles from "./page.module.css";
+// import Link from "next/link";
 import React from "react";
-import HeroCarousel from "./components/HomePage/HeroCarouselHomePage";
+// import HeroCarousel from "./components/HomePage/HeroCarouselHomePage";
 import anilist from './api/anilistMedias';
 import { Hero } from "./components/shared/Hero";
-import NavigationThroughMedias from "./components/HomePage/NavigationThroughMedias";
-import parse from "html-react-parser"
-import NewestMediaSection from "./components/HomePage/NewestMediaSection";
-import MediaRankingSection from "./components/HomePage/MediaRankingSection";
+// import NavigationThroughMedias from "./components/HomePage/NavigationThroughMedias";
+// import parse from "html-react-parser"
+// import NewestMediaSection from "./components/HomePage/NewestMediaSection";
+// import MediaRankingSection from "./components/HomePage/MediaRankingSection";
 import { Slider } from "./components/shared/Slider";
-import SideBar from "./components/SideBar";
+// import SideBar from "./components/SideBar";
 import { Star,Flame } from "lucide-react";
 import { ApiAiringMidiaResults, ApiDefaultResult } from "./ts/interfaces/apiAnilistDataInterface";
 import { Metadata } from "next";
-import * as AddToPlaylistButton from "./components/Buttons/AddToFavourites";
+// import * as AddToPlaylistButton from "./components/Buttons/AddToFavourites";
 import { checkDeviceIsMobile } from "./lib/checkMobileOrDesktop";
 import { cookies, headers } from "next/headers";
-import KeepWatchingSection from "./components/HomePage/KeepWatchingSection";
-import PopularMediaSection from "./components/HomePage/PopularMediaSection";
+// import KeepWatchingSection from "./components/HomePage/KeepWatchingSection";
+// import PopularMediaSection from "./components/HomePage/PopularMediaSection";
 import { ReturnData } from "./types/api";
 
 export const revalidate = 21600 // revalidate cached data every 6 hours
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
 
-  const isOnMobileScreen = checkDeviceIsMobile(headers())
+  // const isOnMobileScreen = checkDeviceIsMobile(headers())
 
   const accessTokenCookie = cookies().get("access_token")?.value
 
@@ -86,7 +86,6 @@ export default async function Home() {
   return (
     <>
       <div className='absolute top-0'>
-        <SideBar />
       </div>
       <div className='ml-0 md:ml-16 lg:ml-16 xl:ml-16 2xl:ml-16'>
         <Hero data={listAnimesTrendingA} />

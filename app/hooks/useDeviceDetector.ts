@@ -1,25 +1,28 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-type DeviceType = 'mobile' | 'tab' | 'desktop';
+type DeviceType = "mobile" | "tab" | "desktop";
 
 const getDeviceType = (width: number): DeviceType => {
   const mobileBreakpoint = 768;
   const tabBreakpoint = 1024;
 
   if (width < mobileBreakpoint) {
-    return 'mobile';
+    return "mobile";
   } else if (width < tabBreakpoint) {
-    return 'tab';
+    return "tab";
   } else {
-    return 'desktop';
+    return "desktop";
   }
 };
 
 const useDeviceDetector = (): DeviceType => {
+  const isClient = typeof window === "object";
+
   const [deviceType, setDeviceType] = useState<DeviceType>(() =>
-    getDeviceType(window.innerWidth)
+    isClient?
+    getDeviceType(window.innerWidth):"desktop"
   );
 
   useEffect(() => {
@@ -27,10 +30,10 @@ const useDeviceDetector = (): DeviceType => {
       setDeviceType(getDeviceType(window.innerWidth));
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 

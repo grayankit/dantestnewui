@@ -3,6 +3,7 @@ import './globals.css';
 import { ThemeProvider } from '@/app/components/theme-provider';
 import TopProgressBar from '@/app/components/TopProgressBar';
 import NavBar from '@/app/components/NavBar';
+import SideBar from './components/SideBar';
 import { Source_Sans_3 } from 'next/font/google';
 import { Providers } from './providers';
 import Footer from '@/app/components/Footer';
@@ -140,6 +141,7 @@ export default function RootLayout({
           >
             <Providers>
               <NavBar />
+              <SideBar/>
               <main>{children}</main>
               <Footer />
               <Changelogs />

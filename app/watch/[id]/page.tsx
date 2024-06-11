@@ -92,8 +92,8 @@ export default async function WatchEpisode({ params, searchParams }: {
             case 'gogoanime':
 
                 const gogoanimeEpisodeIdFromParamsIsOnEpisodesList = episodesList.find(episode => episode.id == searchParams.q)
-                console.log(episodesList)
-                console.log(searchParams.q)
+                // console.log(episodesList)
+                // console.log(searchParams.q)
                 return gogoanimeEpisodeIdFromParamsIsOnEpisodesList == undefined
 
             default:
@@ -205,7 +205,7 @@ export default async function WatchEpisode({ params, searchParams }: {
     }
 
     return (
-        <main id={styles.container}>
+        <main id={styles.container} className='ml-0 md:ml-16 lg:ml-16 xl:ml-16 2xl:ml-16'>
 
             {/* PLAYER */}
             <div className={styles.background}>

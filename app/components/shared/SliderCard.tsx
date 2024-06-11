@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 // import { Button } from '../ui/button';
 import Link from "next/link";
-import { RelationData } from "@/app/lib/info";
+// import { RelationData } from "@/app/lib/info";
 import { ApiDefaultResult } from "@/app/ts/interfaces/apiAnilistDataInterface";
 import { Image } from "@nextui-org/react";
 // import { Info, Play } from 'lucide-react';

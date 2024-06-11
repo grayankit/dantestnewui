@@ -141,7 +141,7 @@ export default async function MediaPage({ params, searchParams }: { params: { id
   }
 
   return (
-    <main id={styles.container}>
+    <main id={styles.container} className='ml-0 md:ml-16 lg:ml-16 xl:ml-16 2xl:ml-16'>
 
       {/* BANNER or BACKGROUND COLOR*/}
       <div

@@ -2,12 +2,12 @@
 import { useDraggable } from 'react-use-draggable-scroll';
 import React, { useRef, useState, useEffect } from 'react';
 import { Media, ReturnData } from '@/app/types/api';
-import Link from 'next/link';
-import Image from 'next/image';
+// import Link from 'next/link';
+// import Image from 'next/image';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { SliderCard } from './SliderCard';
 import { RelationData } from '@/app/lib/info';
-import { ApiDefaultResult } from '@/app/ts/interfaces/apiAnilistDataInterface';
+// import { ApiDefaultResult } from '@/app/ts/interfaces/apiAnilistDataInterface';
 
 export const Slider = ({
   data,
