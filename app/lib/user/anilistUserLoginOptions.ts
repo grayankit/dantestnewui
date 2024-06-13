@@ -27,7 +27,7 @@ export async function handleAnilistUserLoginWithRedux() {
     if (userData) {
         localStorage.setItem("anilist-user", JSON.stringify(userData))
 
-        // userCustomStore.dispatch(addUserInfo(userData))
+        userCustomStore.dispatch(addUserInfo(userData))
         console.log("fix the error, see and  uncomment line 30")
     }
 

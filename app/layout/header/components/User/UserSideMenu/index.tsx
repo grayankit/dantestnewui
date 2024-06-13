@@ -20,6 +20,7 @@ import { useAppSelector, useAppDispatch } from '@/app/lib/redux/hooks'
 import { removeUserInfo } from '@/app/lib/redux/features/manageUserData'
 import { checkAccessTokenStillValid, removeCookies } from '@/app/lib/user/anilistUserLoginOptions'
 import { useParams } from 'next/navigation'
+import { UserRound } from 'lucide-react'
 import { handleAnilistUserLoginWithRedux } from '@/app/lib/user/anilistUserLoginOptions'
 
 const framerMotionShowUp = {
@@ -106,30 +107,13 @@ function UserSideMenu() {
 
             {(!user && !anilistUser) && (
                 <React.Fragment>
-                    <button
+                    <UserRound
                         onClick={() => setIsUserLoginOpen(!isUserLoginOpen)}
-                        aria-controls={styles.user_menu_list}
-                        aria-label={isUserMenuOpen ? 'Click to Hide User Menu' : 'Click to Show User Menu'}
-                        className={`display_flex_row align_items_center ${styles.heading_btn}`}
-                        id={styles.user_btn}
-                        data-useractive={false}
-                        data-loading={loading}
+                        className='hover:cursor-pointer hover:scale-90'
+                        
                     >
 
-                        {loading && (
-                            <LoadingSvg width={16} height={16} title="Loading" />
-                        )}
-
-                        {!loading && (
-                            <React.Fragment>
-                                <PersonIcon className={styles.scale} alt="User Icon" width={16} height={16} />
-                                <span>
-                                    Login
-                                </span>
-                            </React.Fragment>
-                        )}
-
-                    </button>
+                    </UserRound>
 
                 </React.Fragment>
             )}

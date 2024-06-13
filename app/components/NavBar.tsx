@@ -21,6 +21,7 @@ import {
 import { ConsumetSearchResult } from '@/app/types/consumet';
 import useDebounce from '@/app/hooks/useDebounce';
 import Image from 'next/image';
+import UserSideMenu from '../layout/header/components/User/UserSideMenu';
 
 export default function NavBar() {
   const [isVisible, setIsVisible] = useState(true);
@@ -69,7 +70,7 @@ export default function NavBar() {
       <NavbarBrand>
         <Link href='/'>
           <h1 className='text-4xl font-extrabold'>
-            Dan<span className='text-green-500'>totsu</span>
+            Dan<span className='text-purple-600'>totsu</span>
           </h1>
         </Link>
       </NavbarBrand>
@@ -132,6 +133,7 @@ export default function NavBar() {
             </DialogDescription>
           </DialogContent>
         </Dialog>
+        <UserSideMenu/>
       </NavbarContent>
     </Navbar>
   );
