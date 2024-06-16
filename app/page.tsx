@@ -16,7 +16,7 @@ import { Metadata } from "next";
 // import * as AddToPlaylistButton from "./components/Buttons/AddToFavourites";
 import { checkDeviceIsMobile } from "./lib/checkMobileOrDesktop";
 import { cookies, headers } from "next/headers";
-// import KeepWatchingSection from "./components/HomePage/KeepWatchingSection";
+import KeepWatchingSection from "./components/HomePage/KeepWatchingSection";
 // import PopularMediaSection from "./components/HomePage/PopularMediaSection";
 import { ReturnData } from "./types/api";
 
@@ -90,7 +90,7 @@ export default async function Home() {
       <div className='ml-0 md:ml-16 lg:ml-16 xl:ml-16 2xl:ml-16'>
         <Hero data={listAnimesTrendingA} />
         <div className='mt-20 pr-4'>
-          {/* <ContinueWatching /> */}
+        <KeepWatchingSection />
           <h1 className='mb-4 flex gap-1 text-3xl font-bold'>
             <Flame className='size-9' /> <span>Trending Now</span>
           </h1>

@@ -15,7 +15,7 @@ export async function handleAnilistUserLoginWithRedux() {
     const expiresIn = anilistUrlAccessInfo.slice(anilistUrlAccessInfo.search(/\bexpires_in=\b/)).slice(11)
 
     if (anilistUrlAccessInfo) {
-        axios.post(`${window.location.origin}/api/anilist`, {
+        axios.post(`${process.env.NEXT_PUBLIC_WEBSITE_ORIGIN_URL}/api/anilist`, {
             accessToken: accessToken,
             tokenType: tokenType,
             expiresIn: expiresIn
@@ -24,11 +24,13 @@ export async function handleAnilistUserLoginWithRedux() {
 
     const userData = await anilistUsers.getCurrUserData({ accessToken: accessToken })
 
+    console.log(userData)
+    console.log("that was user data")
+
     if (userData) {
         localStorage.setItem("anilist-user", JSON.stringify(userData))
 
         userCustomStore.dispatch(addUserInfo(userData))
-        console.log("fix the error, see and  uncomment line 30")
     }
 
 }
@@ -37,7 +39,7 @@ export async function checkAccessTokenStillValid() {
 
     try {
 
-        await axios.get(`${window.location.origin}/api/anilist`)
+        await axios.get(`${process.env.NEXT_PUBLIC_WEBSITE_ORIGIN_URL}/api/anilist`)
 
         return
 
@@ -45,7 +47,6 @@ export async function checkAccessTokenStillValid() {
     catch (err) {
 
         userCustomStore.dispatch(removeUserInfo())
-        console.log("fix the error see and uncomment line 46")
 
     }
 
