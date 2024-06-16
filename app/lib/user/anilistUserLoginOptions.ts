@@ -44,7 +44,7 @@ export async function checkAccessTokenStillValid() {
     }
     catch (err) {
 
-        // userCustomStore.dispatch(removeUserInfo())
+        userCustomStore.dispatch(removeUserInfo())
         console.log("fix the error see and uncomment line 46")
 
     }

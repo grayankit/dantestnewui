@@ -1,14 +1,14 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import styles from './component.module.css'
-import PersonIcon from '@/public/assets/person-circle.svg'
+import React, { useEffect, useState } from 'react';
+import styles from './component.module.css';
+// import PersonIcon from '@/public/assets/person-circle.svg'
 import ChevronDownSvg from '@/public/assets/chevron-down.svg'
 import ChevronUpSvg from '@/public/assets/chevron-up.svg'
 import LogoutSvg from '@/public/assets/logout.svg'
 import SettingsSvg from '@/public/assets/gear-fill.svg'
 import HistorySvg from '@/public/assets/clock-history.svg'
 import FavouriteSvg from '@/public/assets/heart.svg'
-import LoadingSvg from '@/public/assets/Eclipse-1s-200px.svg'
+// import LoadingSvg from '@/public/assets/Eclipse-1s-200px.svg'
 import { getAuth } from 'firebase/auth'
 import { useAuthState } from "react-firebase-hooks/auth"
 import Image from 'next/image'
@@ -84,7 +84,7 @@ function UserSideMenu() {
 
         if (anilistUser) {
 
-            // dispatch(removeUserInfo(undefined))
+            dispatch(removeUserInfo(undefined))
             console.log("check the code on line 86")
 
             return

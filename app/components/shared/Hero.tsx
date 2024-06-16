@@ -61,7 +61,7 @@ export const Hero = ({ data }: { data: ReturnData }) => {
         <div className='overflow-hidden'>
           {randomElement ? (
             <>
-              <div className='relative'>
+              <div className='relative rounded-md'>
                 {trailer && trailer.url ? (
                   <RenderVideo trailer={trailer.url} />
                 ) : (
@@ -147,7 +147,7 @@ export const Hero = ({ data }: { data: ReturnData }) => {
                       <Link
                         href={`${process.env.NEXT_PUBLIC_DOMAIN}/info/${randomElement.id}?releasing=${randomElement.status === 'RELEASING'}#watch`}
                       >
-                        <Button color='primary'>Watch Now</Button>
+                        <Button color='primary' className='mb-9'>Watch Now</Button>
                       </Link>
                     </div>
                   </div>
