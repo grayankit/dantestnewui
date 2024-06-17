@@ -31,13 +31,14 @@
     height: auto;
     max-height: 80vh;
 
-    background-color: var(--white-100);
+    background-color: var(--bwhite-100);
 
     padding: 24px;
 
     border-radius: 8px;
 
     box-shadow: 0px 0px 3px var(--black-100);
+
 
 }
 
@@ -138,7 +139,7 @@
 }
 
 #login_buttons_container #google_button {
-    background-color: var(--white-100);
+    background-color: var(--bwhite-100);
 }
 
 #login_buttons_container #github_button {
@@ -288,7 +289,7 @@
 
 #modal form button {
 
-    color: var(--white-100);
+    color: var(--bwhite-100);
 
     background-color: var(--brand-color);
     border: 1px solid transparent;
