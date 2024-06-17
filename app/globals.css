@@ -287,7 +287,7 @@ html {
     --ring: 240 4.9% 83.9%;
 
     /* the varibles created by rintaro */
-    --bwhite-100: #000000;
+    --bwhite-100: #1F1F30;
     --white-100: #fff;
     --white-75: rgba(255, 255, 255, 0.75);
     --white-50: rgba(255, 255, 255, 0.5);
@@ -302,11 +302,11 @@ html {
 
     --error: #f44336;
 
-    --brand-color: #ff1a75;
-    --brand-dark-color: #3b0018;
+    --brand-color: #b300b9;
+    --brand-dark-color: #b300b9;
 
-    --pink-variant-1: #ff5ebc;
-    --pink-variant-2: #ff0095;
+    --pink-variant-1: #bb15a5;
+    --pink-variant-2: #a200ff;
     --pink-variant-3: #ffa2c8;
   }
 }

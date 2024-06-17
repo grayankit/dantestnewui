@@ -301,11 +301,11 @@ export default function UserModal({ onClick, auth, }: ModalTypes) {
                                 <LoadingSvg width={16} height={16} alt={"Loading"} />
                             ) : (
                                 formType == "signup" ? (
-                                    <motion.span>
+                                    <motion.span className='text-white'>
                                         SIGN UP
                                     </motion.span>
                                 ) : (
-                                    <motion.span>
+                                    <motion.span className='text-white'>
                                         LOGIN
                                     </motion.span>
                                 )
