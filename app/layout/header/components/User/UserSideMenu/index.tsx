@@ -60,7 +60,7 @@ function UserSideMenu() {
     if (typeof window !== "undefined") {
       if (!user && !loading && !anilistUser) {
 
-        console.log("this is sending request")
+        // console.log("this is sending request")
         handleAnilistUserLoginWithRedux();
       }
     }
@@ -68,7 +68,7 @@ function UserSideMenu() {
 
   useEffect(() => {
     if (typeof window !== "undefined" && anilistUser) {
-        console.log("This is not sending request just kidding")
+        // console.log("This is not sending request just kidding")
       checkAccessTokenStillValid();
     }
   }, [anilistUser]);
@@ -76,7 +76,7 @@ function UserSideMenu() {
   async function logUserOut() {
     if (anilistUser) {
       dispatch(removeUserInfo(undefined));
-      console.log("check the code on line 86");
+      // console.log("check the code on line 86");
 
       return;
     }

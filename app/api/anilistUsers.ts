@@ -190,10 +190,10 @@ export default {
 
             if (getOnlyId) return userDataFromAnilist.id
 
-            console.log(userDataFromAnilist)
+            // console.log(userDataFromAnilist)
 
             const userDocFetchedOrCreated = await createNewUserDocument({ userAnilist: userDataFromAnilist }) as UserAnilist
-            console.log(userDocFetchedOrCreated)
+            // console.log(userDocFetchedOrCreated)
 
             return userDocFetchedOrCreated || undefined
 

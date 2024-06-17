@@ -24,8 +24,8 @@ export async function handleAnilistUserLoginWithRedux() {
 
     const userData = await anilistUsers.getCurrUserData({ accessToken: accessToken })
 
-    console.log(userData)
-    console.log("that was user data")
+    // console.log(userData)
+    // console.log("that was user data")
 
     if (userData) {
         localStorage.setItem("anilist-user", JSON.stringify(userData))
