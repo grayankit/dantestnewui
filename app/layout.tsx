@@ -7,7 +7,7 @@ import SideBar from './components/SideBar';
 import { Source_Sans_3 } from 'next/font/google';
 import { Providers } from './providers';
 import Footer from '@/app/components/Footer';
-import Changelogs from '@/app/components/Changelogs';
+// import Changelogs from '@/app/components/Changelogs';
 import { HydrationOverlay } from '@builder.io/react-hydration-overlay';
 // import {HydrationO}
 
@@ -144,7 +144,7 @@ export default function RootLayout({
               <SideBar/>
               <main>{children}</main>
               <Footer />
-              <Changelogs />
+              {/* <Changelogs /> */}
             </Providers>
           </ThemeProvider>
           <TopProgressBar />
