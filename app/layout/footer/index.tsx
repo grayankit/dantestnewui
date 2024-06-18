@@ -161,7 +161,7 @@ async function Footer() {
 
                 <div className='center display_flex_row'>
                     <div>
-                        <small>Copyright © 2024, AniProject. All Rights Reserved</small>
+                        <small>Copyright © 2024, Dantotsu. All Rights Reserved</small>
                     </div>
 
                     <div>

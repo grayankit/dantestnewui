@@ -1,6 +1,6 @@
-<h1 align="center">AniProject</h1>
+<h1 align="center">Dantotsu</h1>
 
-![AniProject Website Logo](https://user-images.githubusercontent.com/69987890/177884319-0678f842-f3ca-4f62-8d31-7638ca954057.png)
+![Dantotsu Website Logo](https://user-images.githubusercontent.com/69987890/177884319-0678f842-f3ca-4f62-8d31-7638ca954057.png)
 
 Project of animes and mangas website, utilizing the AniList, Consumet and Aniwatch API, which has info of animes and mangas released, data of the cast of that media, and many other things.
 

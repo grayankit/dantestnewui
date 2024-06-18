@@ -24,7 +24,7 @@ import { ReturnData } from '../types/api';
 
 export const revalidate = 30;
 export const metadata: Metadata = {
-  title: 'Home | AniProject',
+  title: 'Home | Dantotsu',
   description: "A anime platform that showcases popular and trending animes, mangas and movies. Explore the latest releases, keep watching your favorites, and discover what's popular in the anime world.",
 }
 export default async function Manga() {

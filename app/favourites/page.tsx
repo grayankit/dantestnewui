@@ -7,7 +7,7 @@ import SelectSort from '../components/SelectSortInputs'
 export async function generateMetadata() {
 
     return {
-        title: `Favourites | AniProject`,
+        title: `Favourites | Dantotsu`,
         description: `User Watchlist.`,
     }
 }

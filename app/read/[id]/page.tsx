@@ -21,7 +21,7 @@ export async function generateMetadata({ params, searchParams }: {
     const mediaInfo = await anilist.getMediaInfo({ id: params.id }) as ApiDefaultResult
 
     return {
-        title: !mediaInfo ? "Error | AniProject" : `Chapter ${searchParams.chapter} - ${mediaInfo.title.userPreferred} | AniProject`,
+        title: !mediaInfo ? "Error | Dantotsu" : `Chapter ${searchParams.chapter} - ${mediaInfo.title.userPreferred} | Dantotsu`,
         description: `Read ${mediaInfo.title.userPreferred} - Chapter ${searchParams.chapter}. ${mediaInfo.description && mediaInfo.description}`,
     }
 }

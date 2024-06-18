@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
   const mediaData = await anilist.getMediaInfo({ id: params.id, accessToken: headers().get("Authorization")?.slice(7) }) as ApiMediaResults
 
   return {
-    title: `${mediaData.title.romaji || mediaData.title.native} | AniProject`,
+    title: `${mediaData.title.romaji || mediaData.title.native} | Dantotsu`,
     description: mediaData.description || `See more info about ${mediaData.title.romaji || mediaData.title.native}`,
   }
 

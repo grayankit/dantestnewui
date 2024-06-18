@@ -8,7 +8,7 @@ import { Metadata } from 'next'
 import axios from 'axios'
 
 export const metadata: Metadata = {
-    title: 'Search | AniProject',
+    title: 'Search | Dantotsu',
     description: 'Filter animes released on that year, or just discover a new one in a genre you didnt watched yet.',
 }
 

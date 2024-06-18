@@ -7,7 +7,7 @@ import SelectSort from '../components/SelectSortInputs'
 export async function generateMetadata() {
 
     return {
-        title: `History | AniProject`,
+        title: `History | Dantotsu`,
         description: `User History of Medias Watched.`,
     }
 }

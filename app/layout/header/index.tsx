@@ -40,7 +40,7 @@ function Header() {
                         <Image
                             id={styles.logo}
                             src={'/logo.png'}
-                            alt='AniProject Website Logo'
+                            alt='Dantotsu Website Logo'
                             fill
                             sizes='110px'
                         />
