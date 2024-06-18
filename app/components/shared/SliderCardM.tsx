@@ -15,7 +15,7 @@ export const SliderCardM = ({ anime }: { anime: Media | RelationData }) => {
 
   return (
     <Link
-      className='relative z-50'
+      className='relative z-0.8'
       href={`/media/${anime.id}`}
     >
 
@@ -78,7 +78,7 @@ export const SliderCardM = ({ anime }: { anime: Media | RelationData }) => {
           </Link>
         </motion.div>
       )} */}
-        <div className='absolute inset-0 top-0 z-[10]'>
+        <div className='absolute inset-0 top-0 z-[0.8]'>
           <div className='flex justify-between'>
             <Badge>{anime.status}</Badge>
             <Badge variant={'secondary'}>

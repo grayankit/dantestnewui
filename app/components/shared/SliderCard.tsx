@@ -16,7 +16,7 @@ export const SliderCard = ({ anime }: { anime: Media | ApiDefaultResult }) => {
 
 
   return (
-    <Link className="relative z-50" href={`/media/${anime.id}`}>
+    <Link className="relative z-0.8" href={`/media/${anime.id}`}>
       <div
         className="relative hover:cursor-pointer hover:scale-105"
         onMouseEnter={() => setIsHovered(true)}
@@ -76,7 +76,7 @@ export const SliderCard = ({ anime }: { anime: Media | ApiDefaultResult }) => {
           </Link>
         </motion.div>
       )} */}
-        <div className="absolute inset-0 top-0 z-[10]">
+        <div className="absolute inset-0 top-0 z-[0.8]">
           <div className="flex justify-between">
             <Badge>{anime.status}</Badge>
             <Badge variant={"secondary"}>

@@ -145,9 +145,9 @@ export const Hero = ({ data }: { data: ReturnData }) => {
                     </div>
                     <div className='flex justify-start'>
                       <Link
-                        href={`${process.env.NEXT_PUBLIC_DOMAIN}/info/${randomElement.id}?releasing=${randomElement.status === 'RELEASING'}#watch`}
+                        href={`/media/${randomElement.id}`}
                       >
-                        <Button color='primary' className='mb-9'>Watch Now</Button>
+                        <Button color='primary' className='mb-9'>See More</Button>
                       </Link>
                     </div>
                   </div>

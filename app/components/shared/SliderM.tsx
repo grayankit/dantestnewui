@@ -64,14 +64,14 @@ export const SliderM = ({
         <ArrowLeft
           onClick={scrollLeft}
           style={{ opacity: isLeftArrowActive ? 1 : 0 }}
-          className='absolute z-[69420] flex h-full w-[30px] cursor-pointer items-center bg-gradient-to-r from-transparent-gr to-transparent-gr transition-all duration-500 ease-out group-hover:from-[#000000] group-hover:to-gradient-rgba'
+          className='absolute z-[0.9] flex h-full w-[30px] cursor-pointer items-center bg-gradient-to-r from-transparent-gr to-transparent-gr transition-all duration-500 ease-out group-hover:from-[#000000] group-hover:to-gradient-rgba'
         />
       </div>
       <div className='group'>
         <ArrowRight
           onClick={scrollRight}
           style={{ opacity: isRightArrowActive ? 1 : 0 }}
-          className='absolute right-0 z-[69420] flex h-full w-[30px] cursor-pointer items-center bg-gradient-to-l from-transparent-gr to-gradient-rgba transition-all duration-500 ease-out group-hover:from-[#000000] group-hover:to-gradient-rgba'
+          className='absolute right-0 z-[0.9] flex h-full w-[30px] cursor-pointer items-center bg-gradient-to-l from-transparent-gr to-gradient-rgba transition-all duration-500 ease-out group-hover:from-[#000000] group-hover:to-gradient-rgba'
         />
       </div>
       <div

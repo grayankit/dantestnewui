@@ -12,7 +12,7 @@ export default function RenderVideo({
   };
 
   return (
-    <div className='flex items-center justify-center overflow-hidden'>
+    <div className='flex items-center justify-center overflow-hidden rounded-md'>
       <video
         src={trailer as string}
         preload='auto'

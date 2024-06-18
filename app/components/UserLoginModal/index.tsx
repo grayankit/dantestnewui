@@ -2,14 +2,14 @@ import { AnimatePresence, motion } from 'framer-motion'
 import React, { MouseEventHandler, useState } from 'react'
 import styles from "./component.module.css"
 import GoogleSvg from '@/public/assets/google-fill.svg'
-import GitHubSvg from '@/public/assets/github.svg'
+// import GitHubSvg from '@/public/assets/github.svg'
 import AnonymousSvg from '@/public/assets/person-fill.svg'
 import CloseSvg from '@/public/assets/x.svg'
 import LoadingSvg from '@/public/assets/Eclipse-1s-200px.svg'
 import AnilistSvg from '@/public/assets/anilist.svg'
 import {
     signInWithPopup, GoogleAuthProvider,
-    GithubAuthProvider, Auth, signInWithEmailAndPassword,
+     Auth, signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     updateProfile,
     signInAnonymously
