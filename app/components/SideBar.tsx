@@ -59,7 +59,6 @@ export default function SideBar() {
                     <ModeToggle />
                   </div>
                 </TooltipTrigger>
-                <Separator className='my-2' />
                 <TooltipContent side='right'>
                   <p>Theme</p>
                 </TooltipContent>
@@ -84,7 +83,7 @@ export default function SideBar() {
               </Tooltip>
             </TooltipProvider>
           </div>
-          <div className='flex flex-col gap-2'>
+          {/* <div className='flex flex-col gap-2'>
             <TooltipProvider>
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
@@ -133,7 +132,7 @@ export default function SideBar() {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          </div>
+          </div> */}
           <Separator className='my-2' />
           <div className='mb-2 flex flex-col gap-2'>
             <TooltipProvider>
@@ -178,8 +177,7 @@ export default function SideBar() {
                   </span>{' '}
                   <span className='font-bold'>Change Theme</span>
                 </div>
-                <Separator className='my-2' />
-                <Link href='/trending'>
+                {/* <Link href='/trending'>
                   <div className='flex items-center gap-1'>
                     <span>
                       <Button variant={'outline'} size={'icon'}>
@@ -188,7 +186,7 @@ export default function SideBar() {
                     </span>
                     <span className='font-bold'>Trending</span>
                   </div>
-                </Link>
+                </Link> */}
                 <Link href='/manga'>
                   <div className='flex items-center gap-1'>
                     <span>
@@ -199,7 +197,7 @@ export default function SideBar() {
                     <span className='font-bold'>Manga</span>
                   </div>
                 </Link>
-                <Link href='/popular'>
+                {/* <Link href='/popular'>
                   <div className='flex items-center gap-1'>
                     <span>
                       <Button variant={'outline'} size={'icon'}>
@@ -208,8 +206,8 @@ export default function SideBar() {
                     </span>
                     <span className='font-bold'>Popular</span>
                   </div>
-                </Link>
-                <Link href='/catalog'>
+                </Link> */}
+                {/* <Link href='/catalog'>
                   <div className='flex items-center gap-1'>
                     <span>
                       <Button variant={'outline'} size={'icon'}>
@@ -218,7 +216,7 @@ export default function SideBar() {
                     </span>
                     <span className='font-bold'>Catalog</span>
                   </div>
-                </Link>
+                </Link> */}
                 <Separator className='my-2' />
                 <div className='flex items-center gap-1'>
                   <span>

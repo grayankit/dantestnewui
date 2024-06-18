@@ -22,6 +22,7 @@ import { ConsumetSearchResult } from '@/app/types/consumet';
 import useDebounce from '@/app/hooks/useDebounce';
 import Image from 'next/image';
 import UserSideMenu from '../layout/header/components/User/UserSideMenu';
+import SearchFormContainer from '../layout/header/components/SearchFormContainer';
 
 export default function NavBar() {
   const [isVisible, setIsVisible] = useState(true);
@@ -76,63 +77,7 @@ export default function NavBar() {
       </NavbarBrand>
 
       <NavbarContent justify='end'>
-        <Dialog>
-          <DialogTrigger>
-            <SearchIcon className='size-5 md:size-8 lg:size-8' />
-          </DialogTrigger>
-          <DialogContent className=''>
-            <DialogDescription>
-              <h1 className='text-2xl font-bold'>Search By Name</h1>
-              <Input
-                className='max-w-[200px]'
-                onChange={handleSearchInputChange}
-                placeholder='Naruto'
-              />
-              <div className='mt-10'>
-                {searchResults && !('message' in searchResults) && (
-                  <div className='max-h-[250px] overflow-y-scroll scrollbar-hide'>
-                    {searchResults.results
-                      .filter(
-                        (s) =>
-                          s.status !== 'Not yet aired' &&
-                          s.status !== 'NOT_YET_RELEASED' &&
-                          s.rating
-                      )
-                      .map((result) => (
-                        <Link key={result.id} href={`/info/${result.id}`}>
-                          <div className='hover:bg-base-200 mb-2 flex cursor-pointer items-center gap-2 duration-200'>
-                            <Image
-                              src={result.image}
-                              alt={result.title.romaji}
-                              width={1000}
-                              height={1000}
-                              className='max-h-[200px] max-w-[100px] object-cover'
-                            />
-                            <div>
-                              <p style={{ color: result.color ?? 'crimson' }}>
-                                {result.title.english
-                                  ? result.title.english
-                                  : result.title.romaji}
-                              </p>
-                              <p>Rating: {result.rating / 10 ?? 0.0}</p>
-                              <p>
-                                Total Episodes:{' '}
-                                {result.currentEpisode ?? result.totalEpisodes}
-                              </p>
-                            </div>
-                          </div>
-                        </Link>
-                      ))}
-                    <p className='text-red-400'>
-                      Some content has been filtered out. Use the catalog page
-                      to get all.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </DialogDescription>
-          </DialogContent>
-        </Dialog>
+        <SearchFormContainer/>
         <UserSideMenu/>
       </NavbarContent>
     </Navbar>

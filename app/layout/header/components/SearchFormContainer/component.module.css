@@ -58,11 +58,11 @@
 
     transition: all ease-in-out 200ms;
 
-    display: flex;
+    /* display: flex; */
     align-items: center;
     justify-content: center;
 
-    padding: 8px 12px;
+    padding: 12px 12px;
     border-radius: 0 24px 24px 0;
 
     border: 1px solid var(--black-75);
@@ -93,6 +93,8 @@
     fill: var(--white-75);
 
     margin-bottom: 4px;
+
+    display: inline;
 
 }
 
@@ -214,7 +216,7 @@
 
     transform: scale(2.3);
 
-    display: block;
+    /* display: block; */
     margin-top: 16px;
     margin-bottom: 16px;
     margin-right: 16px;

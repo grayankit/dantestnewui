@@ -66,12 +66,12 @@ export default async function Manga() {
           </h1>
           <SliderM data={listAnimesTrendingA} title='trending' />
         </div>
-        <div className='mt-20 pr-4'>
+        {/* <div className='mt-20 pr-4'>
           <h1 className='mb-4 flex gap-1 text-3xl font-bold'>
             <Star className='size-9' /> All Time Popular - Manga
           </h1>
           <SliderM data={listAnimesReleasingByPopularity} title='popular' />
-        </div>
+        </div> */}
         {/* <div className='flex w-full flex-col justify-between pr-4 md:flex-row lg:flex-row'>
           <ColumnCard media={upcoming?.results?.slice(0, 10)!} />
           <ColumnCard
