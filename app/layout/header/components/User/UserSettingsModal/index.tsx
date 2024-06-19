@@ -252,6 +252,7 @@ function UserSettingsModal({ onClick, auth, anilistUser, newUser }: SettingsType
                 initial="hidden"
                 animate="visible"
                 exit="exit"
+                className='bg-white text-black dark:bg-gray-900 dark:text-white'
             >
                 <div className={styles.settings_heading}>
                     <h2>Configure Your Account</h2>

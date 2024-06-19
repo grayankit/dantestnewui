@@ -16,10 +16,10 @@ function ErrorPage({ error, reset }: {
 
     return (
 
-        <div id={styles.error_container}>
+        <div id={styles.error_container} className='bg-white dark:bg-gray-900 text-black dark:text-white'>
 
             <div id={styles.img_container}>
-                <Image src={ErrorImg} height={240} alt={'Error 404'} />
+                <Image src={ErrorImg} height={240} alt={'Error 404'} className='fill-white' />
             </div>
 
             <div id={styles.heading_container}>

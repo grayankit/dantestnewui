@@ -1,14 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./component.module.css";
-import PersonIcon from '@/public/assets/person-circle.svg'
+import PersonIcon from "@/public/assets/person-circle.svg";
 import ChevronDownSvg from "@/public/assets/chevron-down.svg";
 import ChevronUpSvg from "@/public/assets/chevron-up.svg";
+import {AlignJustify} from "lucide-react";
 import LogoutSvg from "@/public/assets/logout.svg";
 import SettingsSvg from "@/public/assets/gear-fill.svg";
 import HistorySvg from "@/public/assets/clock-history.svg";
 import FavouriteSvg from "@/public/assets/heart.svg";
-import LoadingSvg from '@/public/assets/Eclipse-1s-200px.svg'
+import LoadingSvg from "@/public/assets/Eclipse-1s-200px.svg";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Image from "next/image";
@@ -48,7 +49,7 @@ function UserSideMenu() {
   const [isUserLoginOpen, setIsUserLoginOpen] = useState<boolean>(false);
   const [isUserSettingsOpen, setIsUserSettingsOpen] = useState<boolean>(false);
 
-  const anilistUser = useAppSelector((state) => (state.UserInfo)?.value);
+  const anilistUser = useAppSelector((state) => state.UserInfo?.value);
   const dispatch = useAppDispatch();
 
   const params = useParams();
@@ -59,7 +60,6 @@ function UserSideMenu() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (!user && !loading && !anilistUser) {
-
         // console.log("this is sending request")
         handleAnilistUserLoginWithRedux();
       }
@@ -68,7 +68,7 @@ function UserSideMenu() {
 
   useEffect(() => {
     if (typeof window !== "undefined" && anilistUser) {
-        // console.log("This is not sending request just kidding")
+      // console.log("This is not sending request just kidding")
       checkAccessTokenStillValid();
     }
   }, [anilistUser]);
@@ -106,8 +106,7 @@ function UserSideMenu() {
             }
             data-useractive={false}
             data-loading={loading}
-          >
-          </UserRound>
+          ></UserRound>
         </React.Fragment>
       )}
 
@@ -141,9 +140,9 @@ function UserSideMenu() {
                 sizes="32px"
               ></Image>
             </span>
-            <span>
+            {/* <span>
               {!isUserMenuOpen ? <ChevronDownSvg /> : <ChevronUpSvg />}
-            </span>
+            </span> */}
           </button>
 
           <AnimatePresence initial={false} mode="wait">
@@ -171,6 +170,12 @@ function UserSideMenu() {
                     <Link href={"/history"}>
                       <HistorySvg width={16} height={16} alt={"History Icon"} />{" "}
                       Latests Watched
+                    </Link>
+                  </li>
+                  <li role="menuitem" onClick={() => setIsUserMenuOpen(false)}>
+                    <Link href={"/my-lists"}>
+                      <AlignJustify />{" "} 
+                      My Lists
                     </Link>
                   </li>
                   <li role="menuitem" onClick={() => setIsUserMenuOpen(false)}>

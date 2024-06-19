@@ -11,8 +11,6 @@
     max-height: 700px;
     width: 96%;
     max-width: 720px;
-
-    background: var(--white-100);
     border-radius: 32px;
 
     box-shadow: 5px 5px 1px 0px var(--black-25);
@@ -95,9 +93,9 @@
 
     border: 1px solid var(--brand-color);
     border-radius: 4px;
-    background: var(--white-100);
+    background: var(--brand-color);
 
-    color: var(--brand-color);
+    color: var(--white-100);
     font-weight: 300;
 
 }

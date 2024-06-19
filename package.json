@@ -5,11 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "NEXT_SHARP_PATH=\"/tmp/node_modules/sharp\" next start",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@builder.io/react-hydration-overlay": "^0.0.8",
     "@nextui-org/react": "^2.3.6",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",

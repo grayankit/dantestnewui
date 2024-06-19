@@ -7,7 +7,7 @@ function Custom404() {
 
     return (
 
-        <div id={styles.error_container}>
+        <div id={styles.error_container} className='bg-whtie dark:bg-gray-800'>
 
             <div id={styles.heading_container}>
 
