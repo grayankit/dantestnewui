@@ -18,8 +18,8 @@ interface Release {
   body: string;
 }
 
-const owner: string = 'codeblitz97';
-const repo: string = 'elyzen';
+const owner: string = 'Danwebt';
+const repo: string = 'Changelogs';
 
 export default function Changelogs() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -111,14 +111,7 @@ export default function Changelogs() {
                       <p className='text-lg sm:text-xl'>Changelogs</p>
                       <div className='flex items-center gap-3'>
                         <Link
-                          href={`https://github.com/${owner}/${repo}`}
-                          target='_blank'
-                          className='h-5 w-5 hover:opacity-75'
-                        >
-                          <AiFillGithub />
-                        </Link>
-                        <Link
-                          href='https://discord.gg/8ynFhUQJbc'
+                          href='https://discord.gg/6VDzbChv'
                           target='_blank'
                           className='h-5 w-5 hover:opacity-75'
                         >
