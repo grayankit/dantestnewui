@@ -54,7 +54,7 @@ export default async function Manga() {
 
     return (
         <>
-      <div className='absolute top-0'>
+      <div className='absolute top-0 min-h-screen'>
       </div>
       <div className='ml-0 md:ml-16 lg:ml-16 xl:ml-16 2xl:ml-16'>
         <div className='mt-20 pr-4'>
