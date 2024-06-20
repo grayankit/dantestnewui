@@ -1,84 +1,41 @@
-'use client';
-
-import { SearchIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTrigger,
-} from './ui/dialog';
-import { Input } from './ui/input';
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
   Link,
-  Button,
-} from '@nextui-org/react';
-import { ConsumetSearchResult } from '@/app/types/consumet';
-import useDebounce from '@/app/hooks/useDebounce';
-import Image from 'next/image';
-import UserSideMenu from '../layout/header/components/User/UserSideMenu';
-import SearchFormContainer from '../layout/header/components/SearchFormContainer';
+} from "@nextui-org/react";
+import Image from "next/image";
+import UserSideMenu from "../layout/header/components/User/UserSideMenu";
+import SearchFormContainer from "../layout/header/components/SearchFormContainer";
+import Logo from "@/public/logo.png";
 
 export default function NavBar() {
-  const [isVisible, setIsVisible] = useState(true);
-  const [searchResults, setSearchResults] =
-    useState<ConsumetSearchResult | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [label, setLabel] = useState<string>('Spy x Family');
 
-  const debouncedSearch = useDebounce(searchQuery, 1000);
 
-  useEffect(() => {
-    async function search(
-      query: string
-    ): Promise<ConsumetSearchResult | undefined> {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_DOMAIN!}/api/search/${query}`,
-          { headers: { 'x-site': 'dantest-seven' } }
-        );
-        return (await response.json()) as ConsumetSearchResult;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    const fetchSearchResults = async (query: string) => {
-      if (query.trim() !== '') {
-        const result = await search(query);
-        setSearchResults(result as ConsumetSearchResult);
-      } else {
-        setSearchResults(null);
-      }
-    };
-
-    fetchSearchResults(debouncedSearch);
-  }, [debouncedSearch]);
-
-  const handleSearchInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchQuery(event.target.value);
-  };
 
   return (
-    <Navbar shouldHideOnScroll>
+    <Navbar shouldHideOnScroll maxWidth="full">
       <NavbarBrand>
-        <Link href='/'>
-          <h1 className='text-4xl font-extrabold'>
-            Dan<span className='text-purple-600'>totsu</span>
+        <Link href="/">
+          <h1 className="text-4xl font-extrabold flex flex-row">
+            <span>
+              <Image
+                src={Logo}
+                alt="dantotsu"
+                width="50"
+                className="rounded-full"
+              />
+            </span>
+            an<span className="text-purple-600">totsu</span>
           </h1>
         </Link>
       </NavbarBrand>
 
-      <NavbarContent justify='end'>
-        <SearchFormContainer/>
-        <UserSideMenu/>
+      <NavbarContent justify="end">
+        <SearchFormContainer />
+        <div className="right-0 flex">
+          <UserSideMenu />
+        </div>
       </NavbarContent>
     </Navbar>
   );

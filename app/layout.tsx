@@ -7,15 +7,13 @@ import SideBar from './components/SideBar';
 import { Source_Sans_3 } from 'next/font/google';
 import { Providers } from './providers';
 import Footer from '@/app/components/Footer';
-// import Changelogs from '@/app/components/Changelogs';
+import Changelogs from '@/app/components/Changelogs';
 // import { HydrationOverlay } from '@builder.io/react-hydration-overlay';
 // import {HydrationO}
 
 const sourceSans = Source_Sans_3({
   subsets: ['latin', 'latin-ext'],
   weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
-  display: 'swap', 
-  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
@@ -134,6 +132,7 @@ export default function RootLayout({
           sourceSans.className
         }
       >
+        {/* <HydrationOverlay> */}
           <ThemeProvider
             attribute='class'
             defaultTheme='system'
@@ -145,10 +144,11 @@ export default function RootLayout({
               <SideBar/>
               <main>{children}</main>
               <Footer />
-              {/* <Changelogs /> */}
+              <Changelogs />
             </Providers>
           </ThemeProvider>
           <TopProgressBar />
+        {/* </HydrationOverlay> */}
       </body>
     </html>
   );
