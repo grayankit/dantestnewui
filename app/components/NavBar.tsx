@@ -14,7 +14,7 @@ export default function NavBar() {
 
 
   return (
-    <Navbar shouldHideOnScroll maxWidth="full">
+    <Navbar maxWidth="full">
       <NavbarBrand>
         <Link href="/">
           <h1 className="text-4xl font-extrabold flex flex-row">
@@ -23,7 +23,7 @@ export default function NavBar() {
                 src={Logo}
                 alt="dantotsu"
                 width="50"
-                className="rounded-full"
+                className="rounded-full max-w-fit"
               />
             </span>
             an<span className="text-purple-600">totsu</span>

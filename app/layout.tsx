@@ -8,6 +8,7 @@ import { Source_Sans_3 } from 'next/font/google';
 import { Providers } from './providers';
 import Footer from '@/app/components/Footer';
 import Changelogs from '@/app/components/Changelogs';
+import GoogleAnalytics from "@bradgarropy/next-google-analytics"
 // import { HydrationOverlay } from '@builder.io/react-hydration-overlay';
 // import {HydrationO}
 
@@ -133,6 +134,7 @@ export default function RootLayout({
         }
       >
         {/* <HydrationOverlay> */}
+        <GoogleAnalytics measurementId="G-VZD2K0L7RN" />
           <ThemeProvider
             attribute='class'
             defaultTheme='system'
