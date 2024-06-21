@@ -14,7 +14,7 @@ import { Star,Flame } from "lucide-react";
 import { ApiAiringMidiaResults, ApiDefaultResult } from "./ts/interfaces/apiAnilistDataInterface";
 import { Metadata } from "next";
 // import * as AddToPlaylistButton from "./components/Buttons/AddToFavourites";
-import { checkDeviceIsMobile } from "./lib/checkMobileOrDesktop";
+// import { checkDeviceIsMobile } from "./lib/checkMobileOrDesktop";
 import { cookies, headers } from "next/headers";
 import KeepWatchingSection from "./components/HomePage/KeepWatchingSection";
 // import PopularMediaSection from "./components/HomePage/PopularMediaSection";

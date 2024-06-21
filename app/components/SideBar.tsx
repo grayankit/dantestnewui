@@ -1,12 +1,13 @@
 "use client";
 
 import {
-  // Book,
+  Book,
   // FlameIcon,
   HomeIcon,
   BookOpen,
   // Menu,
   SettingsIcon,
+  Ellipsis,
   // StarIcon,
 } from "lucide-react";
 import {
@@ -18,7 +19,7 @@ import {
 import { ModeToggle } from "./ThemeToggle";
 import useDeviceDetector from "../hooks/useDeviceDetector";
 import { useEffect, useState } from "react";
-// import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
+import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { Separator } from "./ui/separator";
@@ -116,22 +117,7 @@ export default function SideBar() {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            <TooltipProvider>
-              <Tooltip delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <div>
-                    <Link href='/catalog'>
-                      <Button variant={'outline'} size='icon'>
-                        <Book className='hover:fill-slate-200' />
-                      </Button>
-                    </Link>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent side='right'>
-                  <p>Catalog</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            
           </div> */}
           <Separator className="my-2" />
           <div className="mb-2 flex flex-col gap-2">
@@ -151,6 +137,22 @@ export default function SideBar() {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <div>
+                    <Link href="/catalog">
+                      <Button variant={"outline"} size="icon">
+                        <Book className="hover:fill-slate-200" />
+                      </Button>
+                    </Link>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <p>Catalog</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       ) : (
@@ -167,11 +169,25 @@ export default function SideBar() {
                 <BookOpen />
               </Button>
             </Link>
-            <Link href="/settings">
-              <Button variant={"outline"} size="icon">
-                <SettingsIcon />
-              </Button>
-            </Link>
+            <Drawer>
+              <DrawerTrigger>
+                <Button variant="ghost">
+                  <Ellipsis />
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <Link href="/settings">
+                  <Button variant={"outline"} size="icon">
+                    <SettingsIcon />
+                  </Button>
+                </Link>{' '}
+                <Link href="/catalog">
+                  <Button variant={"outline"} size="icon">
+                    <Book />
+                  </Button>
+                </Link>{' '}
+              </DrawerContent>
+            </Drawer>
           </div>
         </div>
       )}
