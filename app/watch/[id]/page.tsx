@@ -25,22 +25,26 @@ export async function generateMetadata({ params, searchParams }: {
     searchParams: { episode: string, dub?: string } // EPISODE NUMBER, DUBBED
 }) {
 
-    const mediaInfo = await anilist.getMediaInfo({ id: params.id }) as ApiDefaultResult
+    const accessTokenCookie = cookies().get("access_token")?.value
+
+    const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
+
+    const mediaInfo = await anilist.getMediaInfo({ id: params.id, accessToken: userAuthorization }) as ApiDefaultResult
 
     let pageTitle = ""
 
     if (mediaInfo.format == "MOVIE") {
-        pageTitle = `Watch ${mediaInfo.title.userPreferred} | Dantotsu`
+        pageTitle = `Watch ${mediaInfo.title.userPreferred} | AniProject`
     }
     else {
         // ACTES AS DEFAULT VALUE FOR PAGE PROPS
         if (Object.keys(searchParams).length === 0) searchParams = { episode: "1" }
 
-        pageTitle = `Episode ${searchParams.episode} - ${mediaInfo.title.userPreferred} | Dantotsu`
+        pageTitle = `Episode ${searchParams.episode} - ${mediaInfo.title.userPreferred} | AniProject`
     }
 
     return {
-        title: mediaInfo ? pageTitle : "Error | Dantotsu",
+        title: mediaInfo ? pageTitle : "Error | AniProject",
         description: !mediaInfo ? "" : `Watch ${mediaInfo.title.userPreferred}${mediaInfo.format != "MOVIE" ? ` - episode ${searchParams.episode} ` : ""}${searchParams.dub ? "Dubbed" : ""}. ${mediaInfo.description ? mediaInfo.description.replace(/(<([^>]+)>)/ig, '') : ""}`,
     }
 
@@ -51,10 +55,14 @@ export default async function WatchEpisode({ params, searchParams }: {
     searchParams: { episode: string, source: SourceType["source"], q: string, t: string, dub?: string, alert?: string } // EPISODE NUMBER, SOURCE, EPISODE ID, TIME LAST STOP, DUBBED
 }) {
 
+    const accessTokenCookie = cookies().get("access_token")?.value
+
+    const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
+
+    const mediaInfo = await anilist.getMediaInfo({ id: params.id, accessToken: userAuthorization }) as ApiMediaResults
+
     // ACTES AS DEFAULT VALUE FOR PAGE PROPS
     if (Object.keys(searchParams).length === 0) searchParams = { episode: "1", source: "aniwatch", q: "", t: "0" }
-
-    const mediaInfo = await anilist.getMediaInfo({ id: params.id }) as ApiMediaResults
 
     let hadFetchError = false
     let videoIdDoesntMatch = false
@@ -92,8 +100,8 @@ export default async function WatchEpisode({ params, searchParams }: {
             case 'gogoanime':
 
                 const gogoanimeEpisodeIdFromParamsIsOnEpisodesList = episodesList.find(episode => episode.id == searchParams.q)
-                // console.log(episodesList)
-                // console.log(searchParams.q)
+                console.log(episodesList)
+                console.log(searchParams.q)
                 return gogoanimeEpisodeIdFromParamsIsOnEpisodesList == undefined
 
             default:
@@ -138,7 +146,7 @@ export default async function WatchEpisode({ params, searchParams }: {
                 episodesList = await optimizedFetchOnAniwatch({
                     textToSearch: mediaInfo.title.english || mediaInfo.title.romaji,
                     only: "episodes"
-                }) as EpisodeAnimeWatch[]
+                }).then((res: any) => res?.episodes) as EpisodeAnimeWatch[]
 
                 searchParams.q = episodesList[0].episodeId
 
@@ -161,7 +169,7 @@ export default async function WatchEpisode({ params, searchParams }: {
                     format: mediaInfo.format,
                     idToMatch: searchParams?.q?.split("?")[0],
                     isDubbed: searchParams.dub == "true"
-                }) as EpisodeAnimeWatch[]
+                }).then((res: any) => searchParams?.dub == "true" ? res?.episodes.slice(0, res.episodesDub) : res?.episodes) as EpisodeAnimeWatch[]
 
             }
 
@@ -205,7 +213,7 @@ export default async function WatchEpisode({ params, searchParams }: {
     }
 
     return (
-        <main id={styles.container} className='ml-0 md:ml-16 lg:ml-16 xl:ml-16 2xl:ml-16'>
+        <main id={styles.container}>
 
             {/* PLAYER */}
             <div className={styles.background}>
@@ -299,6 +307,7 @@ export default async function WatchEpisode({ params, searchParams }: {
                     {mediaInfo.format != "MOVIE" && (
                         <EpisodesListContainer
                             sourceName={searchParams.source}
+                            anilistLastEpisodeWatched={mediaInfo.mediaListEntry?.progress || undefined}
                             episodesList={episodesList}
                             nextAiringEpisodeInfo={mediaInfo.nextAiringEpisode}
                             episodesListOnImdb={imdbEpisodesList.length > 0 ? imdbEpisodesList : undefined}

@@ -13,9 +13,11 @@ import ClockSvg from "@/public/assets/clock.svg"
 import ProgressSvg from "@/public/assets/progress.svg"
 import FavouriteSvg from "@/public/assets/heart.svg"
 import FavouriteFillSvg from "@/public/assets/heart-fill.svg"
+import PlusSvg from "@/public/assets/plus-lg.svg"
 import EpisodesContainer from './components/AnimeEpisodesContainer'
 import MangaChaptersContainer from './components/MangaChaptersContainer'
 import * as AddToFavourites from '@/app/components/Buttons/AddToFavourites'
+import * as AddToList from '@/app/components/Buttons/AddToList'
 import ScoreRating from '@/app/components/DynamicAssets/ScoreRating'
 import PlayBtn from './components/WatchPlayBtn'
 import { headers } from 'next/headers'
@@ -35,7 +37,7 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
   const mediaData = await anilist.getMediaInfo({ id: params.id, accessToken: headers().get("Authorization")?.slice(7) }) as ApiMediaResults
 
   return {
-    title: `${mediaData.title.romaji || mediaData.title.native} | Dantotsu`,
+    title: `${mediaData.title.romaji || mediaData.title.native} | AniProject`,
     description: mediaData.description || `See more info about ${mediaData.title.romaji || mediaData.title.native}`,
   }
 
@@ -50,13 +52,13 @@ export default async function MediaPage({ params, searchParams }: { params: { id
   // GET MEDIA INFO ON IMDB
   const imdbMediaInfo = await getMediaInfo({
     search: true,
-    seachTitle: mediaInfo.title.english,
+    seachTitle: mediaInfo.title.romaji,
     releaseYear: mediaInfo.startDate.year
   }) as ImdbMediaInfo
 
   function getCrunchyrollEpisodes() {
 
-    const episodesFromCrunchyroll = mediaInfo.streamingEpisodes?.sort((a, b) => {
+    const sortEpisodesByEpisode = mediaInfo.streamingEpisodes?.sort((a, b) => {
       const numA = Number(a.title.slice(a.title?.search(/\b \b/), a.title?.search(/\b - \b/)))
       const numB = Number(b.title.slice(b.title?.search(/\b \b/), b.title?.search(/\b - \b/)))
 
@@ -64,7 +66,7 @@ export default async function MediaPage({ params, searchParams }: { params: { id
 
     })
 
-    return episodesFromCrunchyroll
+    return sortEpisodesByEpisode
 
   }
 
@@ -141,7 +143,7 @@ export default async function MediaPage({ params, searchParams }: { params: { id
   }
 
   return (
-    <main id={styles.container} className='ml-0 md:ml-16 lg:ml-16 xl:ml-16 2xl:ml-16'>
+    <main id={styles.container}>
 
       {/* BANNER or BACKGROUND COLOR*/}
       <div
@@ -161,7 +163,7 @@ export default async function MediaPage({ params, searchParams }: { params: { id
 
           <div id={styles.genres_and_type_container} className='display_flex_row align_items_center'>
 
-            <div className='display_flex_row align_items_center'>
+            <div id={styles.genres_container} className='display_flex_row align_items_center'>
 
               {mediaInfo.genres && (
                 <ul>
@@ -185,27 +187,46 @@ export default async function MediaPage({ params, searchParams }: { params: { id
 
             <div id={styles.btns_actions_container}>
 
-              {/* <AddToNotificationsButton
+              <AddToNotificationsButton
                 mediaInfo={mediaInfo}
-              /> */}
+              />
 
-              {/* <AddToFavourites.Button
+              <AddToList.Button
+                statusOnAnilist={mediaInfo.mediaListEntry?.status}
+                listEntryId={mediaInfo.mediaListEntry?.id}
+                mediaInfo={mediaInfo as ApiDefaultResult}
+                imdbEpisodesList={getImdbEpisodesListWithNoSeasons()}
+                amountWatchedOrRead={mediaInfo.mediaListEntry?.progress}
+              >
+
+                <AddToFavourites.SvgIcon>
+                  <PlusSvg fill="var(--white-100)" />
+                </AddToFavourites.SvgIcon>
+
+                <AddToFavourites.SvgIcon>
+                  <PlusSvg fill="var(--brand-color)" />
+                </AddToFavourites.SvgIcon>
+
+              </AddToList.Button>
+
+              <AddToFavourites.Button
+                isActiveOnAnilist={mediaInfo.isFavourite}
                 mediaInfo={mediaInfo as ApiDefaultResult}
               >
 
                 <AddToFavourites.SvgIcon>
-                  <FavouriteSvg />
+                  <FavouriteSvg fill="var(--white-100)" />
                 </AddToFavourites.SvgIcon>
 
                 <AddToFavourites.SvgIcon>
                   <FavouriteFillSvg fill="var(--brand-color)" />
                 </AddToFavourites.SvgIcon>
 
-              </AddToFavourites.Button> */}
+              </AddToFavourites.Button>
 
             </div>
-
           </div>
+
 
         </section>
 
@@ -219,6 +240,7 @@ export default async function MediaPage({ params, searchParams }: { params: { id
                 mediaId={mediaInfo.id}
                 mediaTitle={mediaInfo.title.romaji}
                 mediaFormat={mediaInfo.format}
+                anilistLastEpisodeWatched={mediaInfo.mediaListEntry?.status != "COMPLETED" ? mediaInfo.mediaListEntry?.progress : undefined}
               />
 
             )}
@@ -423,6 +445,7 @@ export default async function MediaPage({ params, searchParams }: { params: { id
                 <EpisodesContainer
                   crunchyrollInitialEpisodes={getCrunchyrollEpisodes()}
                   mediaInfo={mediaInfo}
+                  episodesWatchedOnAnilist={mediaInfo.mediaListEntry?.progress || undefined}
                   imdb={{
                     mediaSeasons: imdbMediaInfo?.seasons,
                     episodesList: getImdbEpisodesListWithNoSeasons()
@@ -490,20 +513,20 @@ export default async function MediaPage({ params, searchParams }: { params: { id
                       <MediaCard.Container positionIndex={key + 1} onDarkMode>
 
                         <MediaCard.MediaImgLink
-                          mediaId={media.node.mediaRecommendation.id}
-                          title={media.node.mediaRecommendation.title.userPreferred || media.node.mediaRecommendation.title.romaji}
-                          formatOrType={media.node.mediaRecommendation.format}
-                          url={media.node.mediaRecommendation.coverImage.large}
+                          mediaId={media.node.mediaRecommendation?.id}
+                          title={media.node.mediaRecommendation?.title.userPreferred || media.node.mediaRecommendation?.title.romaji}
+                          formatOrType={media.node.mediaRecommendation?.format}
+                          url={media.node.mediaRecommendation?.coverImage.large}
                         />
 
                         <MediaCard.SmallTag
-                          seasonYear={media.node.mediaRecommendation.seasonYear}
-                          tags={media.node.mediaRecommendation.genres[0]}
+                          seasonYear={media.node.mediaRecommendation?.seasonYear}
+                          tags={media.node.mediaRecommendation?.genres[0]}
                         />
 
                         <MediaCard.LinkTitle
-                          title={media.node.mediaRecommendation.title.userPreferred || media.node.mediaRecommendation.title.romaji}
-                          id={media.node.mediaRecommendation.id}
+                          title={media.node.mediaRecommendation?.title.userPreferred || media.node.mediaRecommendation?.title.romaji}
+                          id={media.node.mediaRecommendation?.id}
                         />
 
                       </MediaCard.Container>

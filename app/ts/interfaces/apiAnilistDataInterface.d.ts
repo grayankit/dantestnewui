@@ -28,6 +28,18 @@ export interface ApiDefaultResult {
     image: string | null;
     isAdult: Boolean,
     id: number,
+    isFavourite: boolean,
+    mediaListEntry: {
+        id: number,
+        mediaId: number,
+        status: string,
+        progress: number,
+        media: {
+            title: {
+                romaji: string,
+            }
+        }
+    },
     trailer: {
         id: string,
     }
