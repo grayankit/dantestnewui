@@ -33,7 +33,7 @@ export function AlertWrongMediaVideoOnMediaId({ mediaTitle, mediaId, mediaFormat
     }, [])
 
     return (
-        <div id={styles.alert_container}>
+        <div id={styles.alert_container} className="bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
 
             <div>
 
