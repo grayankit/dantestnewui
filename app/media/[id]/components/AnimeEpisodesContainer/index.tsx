@@ -396,7 +396,7 @@ export default function EpisodesContainer({ imdb, mediaInfo, crunchyrollInitialE
                 exit={{ height: 0, opacity: 0 }}
               >
 
-                <small>Wrong Episodes? Select bellow!</small>
+                <small>Wrong Episodes? Select below!</small>
 
                 <select
                   onChange={(e) => handleRefetchMediaEpisodesFromSelectTag(e.target.value)}
