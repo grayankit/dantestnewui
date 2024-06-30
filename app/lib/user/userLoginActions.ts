@@ -17,14 +17,12 @@ export async function createNewUserDocument({ userFirebase, userAnilist, openMen
     const db = getFirestore(initFirebase())
 
     const userId = userFirebase?.uid || `${userAnilist?.id}`
-    console.log(userId)
-    console.log("this is user id")
 
     if (!userId) return
 
     const doesUserHasDoc = await getDoc(doc(db, "users", userId)).then(res => res.data())
 
-    console.log(doesUserHasDoc)
+    // console.log(doesUserHasDoc)
 
     if (doesUserHasDoc) {
 
@@ -97,7 +95,7 @@ export async function createNewUserDocument({ userFirebase, userAnilist, openMen
     )
 
     if (userAnilist) {
-        console.log("this worked")
+        // console.log("this worked")
 
         updatesUserDocWithAnilistFavourites({
             favourites: userAnilist.favourites,

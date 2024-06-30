@@ -15,7 +15,8 @@ import {
 } from "./anilistQueryConstants";
 import { cache } from "react";
 import axiosRetry from "axios-retry";
-import { getHeadersWithAuthorization } from "./anilistUsers";
+import { getHeadersWithAuthorization} from "./anilistUsers";
+import { queryMediaWithUserAuthenticated } from "./anilistQueryConstants";
 import { ReturnData } from "../types/api";
 
 // returns medias with adult content
@@ -593,41 +594,35 @@ export default {
   ),
 
   // GET MEDIA INFO BY ID
-  getMediaInfo: cache(
-    async ({
-      id,
-      showAdultContent,
-      accessToken,
-    }: {
-      id: number;
-      showAdultContent?: boolean;
-      accessToken?: string;
-    }) => {
-      try {
-        const graphqlQuery = {
-          query: mediaByIdQueryRequest("$id: Int", "id: $id"),
-          variables: {
-            id: id,
-          },
-        };
+  getMediaInfo: cache(async ({ id, accessToken }: { id: number, accessToken?: string }) => {
 
-        const headersCustom = await getHeadersWithAuthorization({
-          accessToken: accessToken,
-        });
+    try {
+
+        const headersCustom = await getHeadersWithAuthorization({ accessToken: accessToken })
+
+        const graphqlQuery = {
+            "query": headersCustom.Authorization ? queryMediaWithUserAuthenticated('$id: Int', 'id: $id') : mediaByIdQueryRequest('$id: Int', 'id: $id'),
+            "variables": {
+                'id': id
+            }
+        }
 
         const { data } = await Axios({
-          url: `${BASE_ANILIST_URL}`,
-          method: "POST",
-          headers: headersCustom,
-          data: graphqlQuery,
-        });
+            url: `${BASE_ANILIST_URL}`,
+            method: 'POST',
+            headers: headersCustom,
+            data: graphqlQuery
+        })
 
-        return data.data.Media as ApiDefaultResult;
-      } catch (error: any) {
-        console.log(error.response.data);
+        return data.data.Media as ApiDefaultResult
 
-        return null;
-      }
     }
-  ),
+    catch (error: any) {
+
+        console.log(error.response.data)
+
+        return null
+
+    }
+}),
 };

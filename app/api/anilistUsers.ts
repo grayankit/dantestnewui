@@ -190,10 +190,7 @@ export default {
 
             if (getOnlyId) return userDataFromAnilist.id
 
-            // console.log(userDataFromAnilist)
-
             const userDocFetchedOrCreated = await createNewUserDocument({ userAnilist: userDataFromAnilist }) as UserAnilist
-            // console.log(userDocFetchedOrCreated)
 
             return userDocFetchedOrCreated || undefined
 
@@ -273,6 +270,8 @@ export default {
             })
 
             const userDataFromAnilist = data.data.MediaListCollection
+            console.log("this function was called")
+            console.log(userDataFromAnilist)
 
             return userDataFromAnilist
 
