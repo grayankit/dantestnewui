@@ -39,7 +39,14 @@
 
     box-shadow: 0px 0px 3px var(--black-100);
 
-
+    background-image: linear-gradient(
+        to top left,
+        var(--bwhite-100) 10%,
+        var(--black-25) 30%
+    ),
+    url("/assets/images/login-background.png");
+    background-size: cover;
+    background-blend-mode: multiply;
 }
 
 #modal::-webkit-scrollbar {
