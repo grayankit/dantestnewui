@@ -23,6 +23,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { Separator } from "./ui/separator";
+import Image from "next/image";
 
 export default function SideBar() {
   const device = useDeviceDetector();
@@ -153,6 +154,22 @@ export default function SideBar() {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <div>
+                    <Link href="/waifu">
+                      <Button variant={"outline"} size="icon">
+                      <Image src="/waifu.png" alt="waifu" width={24} height={24}/>
+                      </Button>
+                    </Link>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <p>Waifu</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       ) : (
@@ -184,6 +201,11 @@ export default function SideBar() {
                 <Link href="/catalog">
                   <Button variant={"outline"} size="icon">
                     <Book />
+                  </Button>
+                </Link>{' '}
+                <Link href="/Waifu">
+                  <Button variant={"outline"} size="icon">
+                    <Image src="/waifu.png" alt="waifu" width={24} height={24}/>
                   </Button>
                 </Link>{' '}
               </DrawerContent>
