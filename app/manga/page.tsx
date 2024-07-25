@@ -8,7 +8,7 @@ import { use } from 'react';
 //   getTrendingManga,
 //   getPopularManga,
 // } from '@/app/lib/manga'
-import { Flame, Star } from 'lucide-react';
+import { Flame, Heart, Star } from 'lucide-react';
 import { SliderM } from '@/app/components/shared/SliderM';
 import { Metadata } from 'next';
 import { cookies, headers } from "next/headers";
@@ -38,18 +38,26 @@ export default async function Manga() {
     const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
     const listAnimesTrendingA = await anilist.getMediaForThisFormatA({
       type:"MANGA",
-      accessToken:userAuthorization
+      accessToken:userAuthorization,
+      sort:"TRENDING_DESC"
     }) as ReturnData
 
 
-    const listAnimesReleasingByPopularity = await anilist.getNewReleasesA({
+    const listAnimesReleasingByPopularity = await anilist.getMediaForThisFormatA({
       type: "MANGA",
-      showAdultContent: false,
-      status: "RELEASING",
-      page: 1,
-      perPage: 12,
-      accessToken: userAuthorization
+      showAdultContent: true,
+      accessToken: userAuthorization,
+      sort:"POPULARITY_DESC"
     }) as ReturnData
+
+    const listAnimesReleasingByFAVOURITES = await anilist.getMediaForThisFormatA({
+      type: "MANGA",
+      showAdultContent: true,
+      accessToken: userAuthorization,
+      sort:"FAVOURITES_DESC"
+    }) as ReturnData
+
+    // console.log(listAnimesReleasingByPopularity)
 
 
     return (
@@ -66,12 +74,18 @@ export default async function Manga() {
           </h1>
           <SliderM data={listAnimesTrendingA} title='trending' />
         </div>
-        {/* <div className='mt-20 pr-4'>
+        <div className='mt-20 pr-4'>
           <h1 className='mb-4 flex gap-1 text-3xl font-bold'>
             <Star className='size-9' /> All Time Popular - Manga
           </h1>
           <SliderM data={listAnimesReleasingByPopularity} title='popular' />
-        </div> */}
+        </div>
+        <div className='mt-20 pr-4'>
+          <h1 className='mb-4 flex gap-1 text-3xl font-bold'>
+            <Heart className='size-9' /> Most favorites - Manga
+          </h1>
+          <SliderM data={listAnimesReleasingByFAVOURITES} title='Favourites' />
+        </div>
         {/* <div className='flex w-full flex-col justify-between pr-4 md:flex-row lg:flex-row'>
           <ColumnCard media={upcoming?.results?.slice(0, 10)!} />
           <ColumnCard

@@ -10,7 +10,7 @@ import { Hero } from "./components/shared/Hero";
 // import MediaRankingSection from "./components/HomePage/MediaRankingSection";
 import { Slider } from "./components/shared/Slider";
 // import SideBar from "./components/SideBar";
-import { Star,Flame } from "lucide-react";
+import { Star,Flame, Heart } from "lucide-react";
 import { ApiAiringMidiaResults, ApiDefaultResult } from "./ts/interfaces/apiAnilistDataInterface";
 import { Metadata } from "next";
 // import * as AddToPlaylistButton from "./components/Buttons/AddToFavourites";
@@ -62,14 +62,14 @@ export default async function Home() {
     accessToken: userAuthorization
   }) as ReturnData
 
+
+
   // // section 3
-  // const listMediasToBannerSection = await anilist.getMediaForThisFormat({
-  //   type: "ANIME",
-  //   sort: "SCORE_DESC",
-  //   accessToken: userAuthorization
-  // }).then(
-  //   res => (res as ApiDefaultResult[]).filter((item) => item.isAdult == false)
-  // )
+  const listAnimesMostFav = await anilist.getMediaForThisFormatA({
+    type:"ANIME",
+    accessToken:userAuthorization,
+    sort:"FAVOURITES_DESC"
+  }) as ReturnData
 
   // const randomIndexForBannerSection = Math.floor(Math.random() * (listMediasToBannerSection?.length || 10)) + 1
 
@@ -101,6 +101,12 @@ export default async function Home() {
             <Star className='size-9' /> All Time Popular
           </h1>
           <Slider data={listAnimesReleasingByPopularity} title='popular' />
+        </div>
+        <div className='mt-20 pr-4'>
+          <h1 className='mb-4 flex gap-1 text-3xl font-bold'>
+            <Heart className='size-9' /> Most Favourities
+          </h1>
+          <Slider data={listAnimesMostFav} title='FAVOURITES' />
         </div>
         <div className='flex w-full flex-col justify-between pr-4 md:flex-row lg:flex-row'>
           {/* <ColumnCard media={upcoming?.results?.slice(0, 10)!} /> */}
