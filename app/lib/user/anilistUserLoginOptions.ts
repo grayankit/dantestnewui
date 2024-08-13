@@ -11,14 +11,13 @@ export async function handleAnilistUserLoginWithRedux() {
     const anilistUrlAccessInfo = window.location.hash
 
     const accessToken = anilistUrlAccessInfo.slice(anilistUrlAccessInfo.search(/\baccess_token=\b/), anilistUrlAccessInfo.search(/\b&token_type\b/)).slice(13)
-    const tokenType = anilistUrlAccessInfo.slice(anilistUrlAccessInfo.search(/\btoken_type=\b/), anilistUrlAccessInfo.search(/\b&expires_in\b/)).slice(11)
-    const expiresIn = anilistUrlAccessInfo.slice(anilistUrlAccessInfo.search(/\bexpires_in=\b/)).slice(11)
+    const tokenType = anilistUrlAccessInfo.slice(anilistUrlAccessInfo.search(/\btoken_type=\b/),).slice(11)
+    // const expiresIn = anilistUrlAccessInfo.slice(anilistUrlAccessInfo.search(/\bexpires_in=\b/)).slice(11)
 
     if (anilistUrlAccessInfo) {
         axios.post(`${process.env.NEXT_PUBLIC_WEBSITE_ORIGIN_URL}/api/anilist`, {
             accessToken: accessToken,
             tokenType: tokenType,
-            expiresIn: expiresIn
         })
     }
 

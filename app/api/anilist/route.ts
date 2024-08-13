@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
 
     try {
 
-        const anilistTokenData: { accessToken: string, tokenType: string, expiresIn: string } = await request.json()
+        const anilistTokenData: { accessToken: string, tokenType: string } = await request.json()
 
         if (!anilistTokenData) return NextResponse.json({
             "message": "No Token Received"
@@ -18,7 +18,6 @@ export async function POST(request: NextRequest) {
             name: 'access_token',
             value: JSON.stringify(anilistTokenData) || "",
             httpOnly: true,
-            expires: Date.now() + Number(anilistTokenData.expiresIn)
         })
 
         return NextResponse.json({
