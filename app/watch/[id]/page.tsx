@@ -26,7 +26,7 @@ export async function generateMetadata(
         searchParams: Promise<{ episode: string, dub?: string }> // EPISODE NUMBER, DUBBED
     }
 ) {
-    const searchParams = await props.searchParams;
+    var searchParams = await props.searchParams;
     const params = await props.params;
 
     const accessTokenCookie = (await cookies()).get("access_token")?.value
@@ -59,7 +59,7 @@ export default async function WatchEpisode(
         searchParams: Promise<{ episode: string, source: SourceType["source"], q: string, t: string, dub?: string, alert?: string }> // EPISODE NUMBER, SOURCE, EPISODE ID, TIME LAST STOP, DUBBED
     }
 ) {
-    const searchParams = await props.searchParams;
+    var searchParams = await props.searchParams;
     const params = await props.params;
 
     const accessTokenCookie = (await cookies()).get("access_token")?.value

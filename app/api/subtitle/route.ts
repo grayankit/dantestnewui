@@ -7,11 +7,13 @@ export async function POST(request: NextRequest) {
 
         const subtitleLanguage: string = await request.json().then((res) => res.subtitleLanguage)
 
-        if (!subtitleLanguage) return NextResponse.json({
-            "message": "No Data Received"
-        }, {
-            status: 404
-        })
+        if (!subtitleLanguage) {
+            return NextResponse.json({
+                "message": "No Data Received"
+            }, {
+                status: 404
+            })
+        }
 
         (await cookies()).set({
             name: 'subtitle_language',

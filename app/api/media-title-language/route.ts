@@ -1,40 +1,36 @@
-import { cookies } from "next/headers"
-import { NextRequest, NextResponse } from "next/server"
+
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-
     try {
+        const body = await request.json();
+        const titleLanguage = body?.titleLanguage;
 
-        const titleLanguage: string = await request.json().then((res) => res.titleLanguage)
+        if (!titleLanguage) {
+            return new NextResponse(
+                JSON.stringify({ message: "No Data Received" }),
+                { status: 404, headers: { "Content-Type": "application/json" } }
+            );
+        }
 
-        if (!titleLanguage) return NextResponse.json({
-            "message": "No Data Received"
-        }, {
-            status: 404
-        })
-
+        // ✅ Fix: Removed 'await' from cookies()
         (await cookies()).set({
             name: 'media_title_language',
             value: titleLanguage
         })
 
-        return NextResponse.json({
-            "message": "Media Title Language Cookie Set!"
-        }, {
-            status: 201
-        })
+        return new NextResponse(
+            JSON.stringify({ message: "Media Title Language Cookie Set!" }),
+            { status: 201, headers: { "Content-Type": "application/json" } }
+        );
 
+    } catch (err) {
+        return new NextResponse(
+            JSON.stringify({ message: "Internal Server Error" }),
+            { status: 500, headers: { "Content-Type": "application/json" } }
+        );
     }
-    catch (err) {
-
-        return NextResponse.json({
-            "message": err
-        }, {
-            status: 500
-        })
-
-    }
-
 }
 
 export async function GET(request: NextRequest) {

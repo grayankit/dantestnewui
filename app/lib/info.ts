@@ -96,33 +96,33 @@ export interface AnilistInfo {
   studios?: string[] | null;
   format: 'TV' | 'TV_SHORT' | 'MOVIE' | 'ONA' | 'OVA' | 'UNKNOWN';
   studiosInfo?:
-    | {
-        name: string;
-        id: string;
-        isMain: boolean;
-      }[]
-    | null;
+  | {
+    name: string;
+    id: string;
+    isMain: boolean;
+  }[]
+  | null;
   type?: string | null;
   mappings?: MappingItem[] | null;
   characters?: Character[] | null;
   recommendations?:
-    | {
-        id: string | null;
-        malId: number | null;
-        title: {
-          romaji: string | null;
-          english: string | null;
-          native: string | null;
-          userPreferred: string | null;
-        };
-        status: string;
-        totalEpisodes?: number | null;
-        image: string | null;
-        cover: string | null;
-        rating?: number | null;
-        type: string | null;
-      }[]
-    | null;
+  | {
+    id: string | null;
+    malId: number | null;
+    title: {
+      romaji: string | null;
+      english: string | null;
+      native: string | null;
+      userPreferred: string | null;
+    };
+    status: string;
+    totalEpisodes?: number | null;
+    image: string | null;
+    cover: string | null;
+    rating?: number | null;
+    type: string | null;
+  }[]
+  | null;
   relations?: RelationData[] | null;
 }
 
@@ -605,10 +605,10 @@ export const fetchAnilistInfo = async (params: Prms): Promise<AnilistInfo> => {
         countryOfOrigin: data.Media?.countryOfOrigin ?? undefined,
         trailer: data.Media?.trailer
           ? {
-              id: data.Media.trailer.id,
-              site: data.Media.trailer?.site,
-              thumbnail: data.Media.trailer?.thumbnail,
-            }
+            id: data.Media.trailer.id,
+            site: data.Media.trailer?.site,
+            thumbnail: data.Media.trailer?.thumbnail,
+          }
           : undefined,
         coverImage:
           data.Media?.coverImage?.extraLarge ??
@@ -628,21 +628,21 @@ export const fetchAnilistInfo = async (params: Prms): Promise<AnilistInfo> => {
         averageRating: data.Media?.averageScore,
         nextAiringEpisode: data.Media?.nextAiringEpisode
           ? {
-              airingTime: data.Media.nextAiringEpisode?.airingAt,
-              timeUntilAiring: data.Media.nextAiringEpisode?.timeUntilAiring,
-              episode: data.Media.nextAiringEpisode?.episode,
-            }
+            airingTime: data.Media.nextAiringEpisode?.airingAt,
+            timeUntilAiring: data.Media.nextAiringEpisode?.timeUntilAiring,
+            episode: data.Media.nextAiringEpisode?.episode,
+          }
           : undefined,
         totalEpisodes:
           data.Media?.episodes ?? data.Media.nextAiringEpisode?.episode - 1,
         currentEpisode:
-          data.Media?.nextAiringEpisode?.episode - 1 ?? data.Media?.episodes,
+          data.Media?.nextAiringEpisode?.episode - 1,
         rating: data.Media?.averageScore,
         duration: data.Media?.duration,
         genres: data.Media?.genres,
         season: data.Media?.season,
         studios: data.Media?.studios.edges.map((item) => item.node.name),
-        studiosInfo: await data.Media?.studios.edges.map(async (item) => ({
+        studiosInfo: data.Media?.studios.edges.map(async (item) => ({
           name: item.node.name,
           id: item.node.id,
           isMain: item.isMain,

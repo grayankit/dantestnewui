@@ -1,18 +1,20 @@
+
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse, } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // HANDLES ACCESS TOKEN FOR ANILIST USERS
 export async function POST(request: NextRequest) {
-
     try {
+        const anilistTokenData = await request.json();
 
-        const anilistTokenData: { accessToken: string, tokenType: string } = await request.json()
+        if (!anilistTokenData?.accessToken || !anilistTokenData?.tokenType) {
+            return new NextResponse(
+                JSON.stringify({ message: "No Token Received" }),
+                { status: 404, headers: { "Content-Type": "application/json" } }
+            );
+        }
 
-        if (!anilistTokenData) return NextResponse.json({
-            "message": "No Token Received"
-        }, {
-            status: 404
-        })
+        // ✅ Fix: Remove 'await' from cookies()
 
         (await cookies()).set({
             name: 'access_token',
@@ -20,24 +22,17 @@ export async function POST(request: NextRequest) {
             httpOnly: true,
         })
 
-        return NextResponse.json({
-            "message": "Anilist Token Set!"
-        }, {
-            status: 201
-        }
-        )
+        return new NextResponse(
+            JSON.stringify({ message: "Anilist Token Set!" }),
+            { status: 201, headers: { "Content-Type": "application/json" } }
+        );
 
+    } catch (err) {
+        return new NextResponse(
+            JSON.stringify({ message: "Internal Server Error" }),
+            { status: 500, headers: { "Content-Type": "application/json" } }
+        );
     }
-    catch (err) {
-
-        return NextResponse.json({
-            "message": err
-        }, {
-            status: 500
-        })
-
-    }
-
 }
 
 export async function GET(request: NextRequest) {

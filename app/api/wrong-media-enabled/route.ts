@@ -7,11 +7,13 @@ export async function POST(request: NextRequest) {
 
         const isPlayWrongMediaEnabled: string = await request.json().then((res) => res.isEnabled)
 
-        if (!isPlayWrongMediaEnabled) return NextResponse.json({
-            "message": "No Data Received"
-        }, {
-            status: 404
-        })
+        if (!isPlayWrongMediaEnabled) {
+            return NextResponse.json({
+                "message": "No Data Received"
+            }, {
+                status: 404
+            })
+        }
 
         (await cookies()).set({
             name: 'wrong_media_enabled',

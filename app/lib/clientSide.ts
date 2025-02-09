@@ -95,13 +95,13 @@ export const getTrendingAnime = async (page = 1, perPage = 24) => {
         .map((item: any) => ({
           id: item.id.toString(),
           malId: item.idMal,
-          title:
-            {
+          title: item.title
+            ? {
               romaji: item.title.romaji,
               english: item.title.english,
               native: item.title.native,
               userPreferred: item.title.userPreferred,
-            } || item.title.romaji,
+            } : item.title.romaji || "Unknow Title",
           image:
             item.coverImage.extraLarge ??
             item.coverImage.large ??
@@ -236,13 +236,13 @@ export const getPopularAnime = async (page = 1, perPage = 24) => {
         .map((item: any) => ({
           id: item.id.toString(),
           malId: item.idMal,
-          title:
-            {
+          title: item.title
+            ? {
               romaji: item.title.romaji,
               english: item.title.english,
               native: item.title.native,
               userPreferred: item.title.userPreferred,
-            } || item.title.romaji,
+            } : item.title.romaji || "Unknow Title",
           image:
             item.coverImage.extraLarge ??
             item.coverImage.large ??

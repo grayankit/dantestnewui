@@ -2,39 +2,34 @@ import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
-
     try {
+        const body = await request.json();
+        const isAdultContentEnabled = body.isAdultContentEnabled?.toString(); // Ensure it's a string
 
-        const isAdultContentEnabled: string = await request.json().then((res) => res.isAdultContentEnabled)
+        if (!isAdultContentEnabled) {
+            return new NextResponse(
+                JSON.stringify({ message: "No Data Received" }),
+                { status: 404, headers: { "Content-Type": "application/json" } }
+            );
+        }
 
-        if (!isAdultContentEnabled) return NextResponse.json({
-            "message": "No Data Received"
-        }, {
-            status: 404
-        })
-
+        // Correct cookies() usage
         (await cookies()).set({
             name: 'is_adult_content_enabled',
             value: isAdultContentEnabled
         })
 
-        return NextResponse.json({
-            "message": "Adult Content Cookie Set!"
-        }, {
-            status: 201
-        })
+        return new NextResponse(
+            JSON.stringify({ message: "Adult Content Cookie Set!" }),
+            { status: 201, headers: { "Content-Type": "application/json" } }
+        );
 
+    } catch (err) {
+        return new NextResponse(
+            JSON.stringify({ message: "Internal Server Error" }),
+            { status: 500, headers: { "Content-Type": "application/json" } }
+        );
     }
-    catch (err) {
-
-        return NextResponse.json({
-            "message": err
-        }, {
-            status: 500
-        })
-
-    }
-
 }
 
 export async function GET(request: NextRequest) {

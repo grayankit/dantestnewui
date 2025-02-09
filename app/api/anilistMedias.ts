@@ -15,7 +15,7 @@ import {
 } from "./anilistQueryConstants";
 import { cache } from "react";
 import axiosRetry from "axios-retry";
-import { getHeadersWithAuthorization} from "./anilistUsers";
+import { getHeadersWithAuthorization } from "./anilistUsers";
 import { queryMediaWithUserAuthenticated } from "./anilistQueryConstants";
 import { ReturnData } from "../types/api";
 
@@ -70,11 +70,11 @@ export default {
       sort?: string;
       showAdultContent?: boolean;
       status?:
-        | "FINISHED"
-        | "RELEASING"
-        | "NOT_YET_RELEASED"
-        | "CANCELLED"
-        | "HIATUS";
+      | "FINISHED"
+      | "RELEASING"
+      | "NOT_YET_RELEASED"
+      | "CANCELLED"
+      | "HIATUS";
       page?: number;
       perPage?: number;
       accessToken?: string;
@@ -93,11 +93,10 @@ export default {
           ),
           variables: {
             type: `${type}`,
-            format: `${
-              (format === "MOVIE" && "MOVIE") ||
+            format: `${(format === "MOVIE" && "MOVIE") ||
               (type === "MANGA" && "MANGA") ||
               (type === "ANIME" && "TV")
-            }`,
+              }`,
             page: page || 1,
             sort: sort || "POPULARITY_DESC",
             perPage: perPage || 20,
@@ -139,11 +138,11 @@ export default {
       sort?: string;
       showAdultContent?: boolean;
       status?:
-        | "FINISHED"
-        | "RELEASING"
-        | "NOT_YET_RELEASED"
-        | "CANCELLED"
-        | "HIATUS";
+      | "FINISHED"
+      | "RELEASING"
+      | "NOT_YET_RELEASED"
+      | "CANCELLED"
+      | "HIATUS";
       page?: number;
       perPage?: number;
       accessToken?: string;
@@ -162,11 +161,10 @@ export default {
           ),
           variables: {
             type: `${type}`,
-            format: `${
-              (format === "MOVIE" && "MOVIE") ||
+            format: `${(format === "MOVIE" && "MOVIE") ||
               (type === "MANGA" && "MANGA") ||
               (type === "ANIME" && "TV")
-            }`,
+              }`,
             page: page || 1,
             sort: sort || "POPULARITY_DESC",
             perPage: perPage || 20,
@@ -191,13 +189,14 @@ export default {
             .map((item: any) => ({
               id: item.id.toString(),
               malId: item.idMal,
-              title:
-                {
+              title: item.title
+                ? {
                   romaji: item.title.romaji,
                   english: item.title.english,
                   native: item.title.native,
                   userPreferred: item.title.userPreferred,
-                } || item.title.romaji,
+                }
+                : item.title.romaji || item.title.romaji,
               coverImage:
                 item.coverImage.extraLarge ??
                 item.coverImage.large ??
@@ -392,8 +391,8 @@ export default {
         return showAdultContent
           ? (data.data.Page.airingSchedules as ApiAiringMidiaResults[])
           : (filterMediasWithAdultContent(
-              data.data.Page.airingSchedules
-            ) as ApiAiringMidiaResults[]);
+            data.data.Page.airingSchedules
+          ) as ApiAiringMidiaResults[]);
       } catch (error: any) {
         console.log(error.response.data);
 
@@ -488,8 +487,8 @@ export default {
           data: graphqlQuery,
         });
         return showAdultContent ?
-                data.data.Page.media as ApiDefaultResult[] : filterMediasWithAdultContent(data.data.Page.media, "mediaByFormat") as ApiDefaultResult[]
-        
+          data.data.Page.media as ApiDefaultResult[] : filterMediasWithAdultContent(data.data.Page.media, "mediaByFormat") as ApiDefaultResult[]
+
       } catch (error: any) {
         console.log(error.response.data);
 
@@ -543,13 +542,14 @@ export default {
             .map((item: any) => ({
               id: item.id.toString(),
               malId: item.idMal,
-              title:
-                {
+              title: item.title
+                ? {
                   romaji: item.title.romaji,
                   english: item.title.english,
                   native: item.title.native,
                   userPreferred: item.title.userPreferred,
-                } || item.title.romaji,
+                }
+                : item.title.romaji || "Unknow Title",
               coverImage:
                 item.coverImage.extraLarge ??
                 item.coverImage.large ??
@@ -598,31 +598,31 @@ export default {
 
     try {
 
-        const headersCustom = await getHeadersWithAuthorization({ accessToken: accessToken })
+      const headersCustom = await getHeadersWithAuthorization({ accessToken: accessToken })
 
-        const graphqlQuery = {
-            "query": headersCustom.Authorization ? queryMediaWithUserAuthenticated('$id: Int', 'id: $id') : mediaByIdQueryRequest('$id: Int', 'id: $id'),
-            "variables": {
-                'id': id
-            }
+      const graphqlQuery = {
+        "query": headersCustom.Authorization ? queryMediaWithUserAuthenticated('$id: Int', 'id: $id') : mediaByIdQueryRequest('$id: Int', 'id: $id'),
+        "variables": {
+          'id': id
         }
+      }
 
-        const { data } = await Axios({
-            url: `${BASE_ANILIST_URL}`,
-            method: 'POST',
-            headers: headersCustom,
-            data: graphqlQuery
-        })
+      const { data } = await Axios({
+        url: `${BASE_ANILIST_URL}`,
+        method: 'POST',
+        headers: headersCustom,
+        data: graphqlQuery
+      })
 
-        return data.data.Media as ApiDefaultResult
+      return data.data.Media as ApiDefaultResult
 
     }
     catch (error: any) {
 
-        console.log(error.response.data)
+      console.log(error.response.data)
 
-        return null
+      return null
 
     }
-}),
+  }),
 };
