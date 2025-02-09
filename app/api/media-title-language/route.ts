@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
             status: 404
         })
 
-        cookies().set({
+        (await cookies()).set({
             name: 'media_title_language',
             value: titleLanguage
         })
@@ -74,7 +74,7 @@ export async function DELETE() {
 
     try {
 
-        cookies().delete("media_title_language")
+        (await cookies()).delete("media_title_language")
 
         return NextResponse.json({
             "message": "Success"

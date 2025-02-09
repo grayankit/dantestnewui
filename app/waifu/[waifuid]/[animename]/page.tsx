@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState, use } from "react";
 import ReactMarkdown from "react-markdown";
 import { SyncLoader } from "react-spinners";
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
@@ -18,7 +18,8 @@ type Chat = {
     timestamp: string;
 };
 
-const Page = ({ params }: { params: { waifuid: string; animename: string } }) => {
+const Page = (props: { params: Promise<{ waifuid: string; animename: string }> }) => {
+    const params = use(props.params);
     const token = getCookie("token");
     const [message, setMessage] = useState<{ text?: string; isBot: boolean }[]>(() => [{ text: "", isBot: true }]);
     const [prompt, setPrompt] = useState<string>("");

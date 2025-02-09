@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
             status: 404
         })
 
-        cookies().set({
+        (await cookies()).set({
             name: 'access_token',
             value: JSON.stringify(anilistTokenData) || "",
             httpOnly: true,
@@ -78,7 +78,7 @@ export async function DELETE() {
 
     try {
 
-        cookies().delete("access_token")
+        (await cookies()).delete("access_token")
 
         return NextResponse.json({
             "message": "Success"

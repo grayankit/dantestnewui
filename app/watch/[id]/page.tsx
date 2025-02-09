@@ -20,12 +20,16 @@ import { AlertWrongMediaVideoOnMediaId } from './components/AlertContainer'
 
 export const revalidate = 900 // revalidate cached data every 15 minutes
 
-export async function generateMetadata({ params, searchParams }: {
-    params: { id: number }, // ANILIST ANIME ID
-    searchParams: { episode: string, dub?: string } // EPISODE NUMBER, DUBBED
-}) {
+export async function generateMetadata(
+    props: {
+        params: Promise<{ id: number }>, // ANILIST ANIME ID
+        searchParams: Promise<{ episode: string, dub?: string }> // EPISODE NUMBER, DUBBED
+    }
+) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
 
-    const accessTokenCookie = cookies().get("access_token")?.value
+    const accessTokenCookie = (await cookies()).get("access_token")?.value
 
     const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
 
@@ -46,16 +50,19 @@ export async function generateMetadata({ params, searchParams }: {
     return {
         title: mediaInfo ? pageTitle : "Error | Dantotsu",
         description: !mediaInfo ? "" : `Watch ${mediaInfo.title.userPreferred}${mediaInfo.format != "MOVIE" ? ` - episode ${searchParams.episode} ` : ""}${searchParams.dub ? "Dubbed" : ""}. ${mediaInfo.description ? mediaInfo.description.replace(/(<([^>]+)>)/ig, '') : ""}`,
-    }
-
+    };
 }
 
-export default async function WatchEpisode({ params, searchParams }: {
-    params: { id: number }, // ANILIST ANIME ID
-    searchParams: { episode: string, source: SourceType["source"], q: string, t: string, dub?: string, alert?: string } // EPISODE NUMBER, SOURCE, EPISODE ID, TIME LAST STOP, DUBBED
-}) {
+export default async function WatchEpisode(
+    props: {
+        params: Promise<{ id: number }>, // ANILIST ANIME ID
+        searchParams: Promise<{ episode: string, source: SourceType["source"], q: string, t: string, dub?: string, alert?: string }> // EPISODE NUMBER, SOURCE, EPISODE ID, TIME LAST STOP, DUBBED
+    }
+) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
 
-    const accessTokenCookie = cookies().get("access_token")?.value
+    const accessTokenCookie = (await cookies()).get("access_token")?.value
 
     const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
 
@@ -73,7 +80,7 @@ export default async function WatchEpisode({ params, searchParams }: {
 
     let episodeDataFetched: EpisodeLinksGoGoAnime | EpisodeLinksAnimeWatch | null = null
     let episodeSubtitles: EpisodeLinksAnimeWatch["tracks"] | undefined = undefined
-    const subtitleLanguage = cookies().get("subtitle_language")?.value || "English"
+    const subtitleLanguage = (await cookies()).get("subtitle_language")?.value || "English"
     let episodesList: EpisodeAnimeWatch[] | MediaEpisodes[] = []
     let videoUrlSrc: string | undefined = undefined
     let imdbEpisodesList: ImdbEpisode[] = []

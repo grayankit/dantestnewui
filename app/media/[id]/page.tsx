@@ -32,22 +32,26 @@ import stringToOnlyAlphabetic from '@/app/lib/convertStrings'
 
 export const revalidate = 43200 // revalidate cached data every 12 hours
 
-export async function generateMetadata({ params }: { params: { id: number } }) {
+export async function generateMetadata(props: { params: Promise<{ id: number }> }) {
+  const params = await props.params;
 
-  const mediaData = await anilist.getMediaInfo({ id: params.id, accessToken: headers().get("Authorization")?.slice(7) }) as ApiMediaResults
+  const mediaData = await anilist.getMediaInfo({ id: params.id, accessToken: (await headers()).get("Authorization")?.slice(7) }) as ApiMediaResults
 
   return {
     title: `${mediaData.title.romaji || mediaData.title.native} | Dantotsu`,
     description: mediaData.description || `See more info about ${mediaData.title.romaji || mediaData.title.native}`,
   }
-
 }
 
-export default async function MediaPage({ params, searchParams }: { params: { id: number }, searchParams: { lang?: string } }) {
+export default async function MediaPage(
+  props: { params: Promise<{ id: number }>, searchParams: Promise<{ lang?: string }> }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
 
-  const isOnMobileScreen = checkDeviceIsMobile(headers()) || false
+  const isOnMobileScreen = checkDeviceIsMobile(await headers()) || false
 
-  const mediaInfo = await anilist.getMediaInfo({ id: params.id, accessToken: headers().get("Authorization")?.slice(7) }) as ApiMediaResults
+  const mediaInfo = await anilist.getMediaInfo({ id: params.id, accessToken: (await headers()).get("Authorization")?.slice(7) }) as ApiMediaResults
 
   // GET MEDIA INFO ON IMDB
   const imdbMediaInfo = await getMediaInfo({

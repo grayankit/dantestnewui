@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
             status: 404
         })
 
-        cookies().set({
+        (await cookies()).set({
             name: 'wrong_media_enabled',
             value: `${isPlayWrongMediaEnabled}`
         })
@@ -74,7 +74,7 @@ export async function DELETE() {
 
     try {
 
-        cookies().delete("wrong_media_enabled")
+        (await cookies()).delete("wrong_media_enabled")
 
         return NextResponse.json({
             "message": "Success"

@@ -33,7 +33,7 @@ export default async function Manga() {
     // const popular = use(getPopularManga());
     // const upcoming = use(getUpcomingAnime());
     // const seasonal = use(getSeasonalAnime());
-    const accessTokenCookie = cookies().get("access_token")?.value
+    const accessTokenCookie = (await cookies()).get("access_token")?.value
 
     const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
     const listAnimesTrendingA = await anilist.getMediaForThisFormatA({

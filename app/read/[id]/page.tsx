@@ -13,10 +13,14 @@ import { FetchEpisodeError } from '@/app/components/MediaFetchErrorPage'
 
 export const revalidate = 1800 // revalidate cached data every 30 minutes
 
-export async function generateMetadata({ params, searchParams }: {
-    params: { id: number }, // ANILIST MANGA ID
-    searchParams: { chapter: string, source: string, q: string } // EPISODE NUMBER, SOURCE, EPISODE ID
-}) {
+export async function generateMetadata(
+    props: {
+        params: Promise<{ id: number }>, // ANILIST MANGA ID
+        searchParams: Promise<{ chapter: string, source: string, q: string }> // EPISODE NUMBER, SOURCE, EPISODE ID
+    }
+) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
 
     const mediaInfo = await anilist.getMediaInfo({ id: params.id }) as ApiDefaultResult
 
@@ -26,10 +30,14 @@ export async function generateMetadata({ params, searchParams }: {
     }
 }
 
-async function ReadChapter({ params, searchParams }: {
-    params: { id: number }, // ANILIST ANIME ID
-    searchParams: { chapter: string, source: "mangadex", q: string, page: string } // EPISODE NUMBER, SOURCE, EPISODE ID, LAST PAGE 
-}) {
+async function ReadChapter(
+    props: {
+        params: Promise<{ id: number }>, // ANILIST ANIME ID
+        searchParams: Promise<{ chapter: string, source: "mangadex", q: string, page: string }> // EPISODE NUMBER, SOURCE, EPISODE ID, LAST PAGE 
+    }
+) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
 
     const mediaInfo = await anilist.getMediaInfo({ id: params.id }) as ApiMediaResults
 

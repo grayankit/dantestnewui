@@ -12,7 +12,7 @@ import { cookies } from 'next/headers'
 
 async function Footer() {
 
-    const accessTokenCookie = cookies().get("access_token")?.value
+    const accessTokenCookie = (await cookies()).get("access_token")?.value
 
     const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
 

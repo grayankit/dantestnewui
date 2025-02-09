@@ -12,7 +12,11 @@ export async function generateMetadata() {
     }
 }
 
-function PlaylistPage({ params, searchParams }: { params?: unknown, searchParams?: { format: string, sort: "title_desc" | "title_asc" } }) {
+async function PlaylistPage(
+    props: { params?: Promise<unknown>, searchParams?: Promise<{ format: string, sort: "title_desc" | "title_asc" }> }
+) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
 
     return (
         <main id={styles.container}>

@@ -18,7 +18,7 @@ export const SliderM = ({
   type?: string;
 }) => {
   const slider =
-    useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+    useRef<HTMLDivElement>(undefined) as React.MutableRefObject<HTMLInputElement>;
   const { events } = useDraggable(slider, { applyRubberBandEffect: true });
   const [isLeftArrowActive, setIsLeftArrowActive] = useState(false);
   const [isRightArrowActive, setIsRightArrowActive] = useState(false);

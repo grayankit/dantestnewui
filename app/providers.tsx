@@ -8,7 +8,7 @@ import { userCustomStore } from "./lib/user/anilistUserLoginOptions";
 import { NextUIProvider } from "@nextui-org/react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const storeRef = useRef<AppStore>();
+  const storeRef = useRef<AppStore>(undefined);
 
   if (!storeRef.current) {
     storeRef.current = userCustomStore;

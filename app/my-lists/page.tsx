@@ -34,21 +34,24 @@ type FetchListsResultsType = {
 
 }
 
-async function MyListsPage({ params, searchParams }: {
-    params?: unknown,
-    searchParams?: {
-        format: string,
-        sort: "title_desc" | "title_asc",
-        type: "ANIME" | "MANGA" | "tv" | "movie"
+async function MyListsPage(
+    props: {
+        params?: Promise<unknown>,
+        searchParams?: Promise<{
+            format: string,
+            sort: "title_desc" | "title_asc",
+            type: "ANIME" | "MANGA" | "tv" | "movie"
+        }>
     }
-}
 ) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
 
-    const accessTokenCookie = cookies().get("access_token")?.value
+    const accessTokenCookie = (await cookies()).get("access_token")?.value
 
     const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
 
-    const isOnMobile = checkDeviceIsMobile(headers())
+    const isOnMobile = checkDeviceIsMobile(await headers())
 
     let dataBySearchQuery: FetchListsResultsType | null = null
 
