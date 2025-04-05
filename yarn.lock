@@ -7660,10 +7660,10 @@ pirates@^4.0.1:
   resolved "https://registry.npmjs.org/pirates/-/pirates-4.0.6.tgz"
   integrity sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==
 
-pnpm@^9.2.0:
-  version "9.3.0"
-  resolved "https://registry.npmjs.org/pnpm/-/pnpm-9.3.0.tgz"
-  integrity sha512-7nuT4MK9EUCcZCT5K4ZvMdPqG+9fvkfTx1AM3DyWaIM9LlVoGtZt9bZAxh+p3CXVRu+lTXbX+L9UsTYUrCk2MQ==
+pnpm@^9.15.0:
+  version "9.15.0"
+  resolved "https://registry.yarnpkg.com/pnpm/-/pnpm-9.15.0.tgz#8bfdb6d72b4d5fdf87d21d27f2bfbe2b21dd2629"
+  integrity sha512-duI3l2CkMo7EQVgVvNZije5yevN3mqpMkU45RBVsQpmSGon5djge4QfUHxLPpLZmgcqccY8GaPoIMe1MbYulbA==
 
 popmotion@^11.0.5:
   version "11.0.5"
