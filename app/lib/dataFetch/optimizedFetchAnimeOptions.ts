@@ -60,8 +60,15 @@ export async function optimizedFetchOnAniwatch({ textToSearch, only, format, med
 
     const titleFixed = stringToOnlyAlphabetic(checkAnilistTitleMisspelling(textToSearch)).toLowerCase()
 
-    let resultsForMediaSearch = await aniwatch.searchMedia({ query: titleFixed }).then((res) => res!.animes) as MediaInfoAniwatch[]
-
+    let resultsForMediaSearch = await aniwatch.searchMedia({ query: titleFixed })
+    .then((res) => {
+        return res!.animes;
+    })
+    .catch((error) => {
+        console.error("Error fetching media from Aniwatch:", error);
+        return [];
+    }) as MediaInfoAniwatch[];
+    
     if (format) {
 
         const filterFormat = resultsForMediaSearch.filter(media => media.type.toLowerCase() == format.toLowerCase())

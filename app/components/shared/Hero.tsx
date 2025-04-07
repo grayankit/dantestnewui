@@ -36,14 +36,25 @@ export const Hero = ({ data }: { data: ReturnData }) => {
     async function fetchTrailer(trailerId: string) {
       try {
         const response = await fetch(
-          `https://pipedapi.kavin.rocks/streams/${trailerId.split('?v=')[1]}`
-        );
-        const { videoStreams } = await response.json();
-        const item = videoStreams.find(
-          (i: any) => i.quality === '1080p' && i.format === 'WEBM'
+          `https://watch.leptons.xyz/streams/${trailerId.split('?v=')[1]}`,
+          {
+            mode: 'no-cors',
+          }
         );
 
-        setTrailer(item);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const { videoStreams } = await response.json();
+        console.log(videoStreams);
+
+        if (videoStreams != undefined) {
+          const item = videoStreams.find(
+        (i: any) => i.quality === '1080p' && i.format === 'WEBM'
+          );
+          setTrailer(item);
+        }
       } catch (error) {
         console.error('Error fetching trailer:', error);
         setTrailer(undefined);

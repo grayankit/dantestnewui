@@ -30,7 +30,7 @@ export default {
         }
         catch (error: any) {
 
-            console.log(error?.response.data.errors)
+            console.log(error)
 
             return null
 
@@ -51,7 +51,7 @@ export default {
         }
         catch (error: any) {
 
-            console.log(error?.response.data.errors)
+            console.log(error)
 
             return null
 
@@ -72,7 +72,7 @@ export default {
         }
         catch (error: any) {
 
-            console.log(error?.response.data.errors)
+            console.log(error)
 
             return null
 
