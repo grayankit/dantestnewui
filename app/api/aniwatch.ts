@@ -3,7 +3,7 @@ import Axios from "axios";
 import axiosRetry from "axios-retry";
 import { cache } from "react";
 
-const BASE_URL = process.env.NEXT_PUBLIC_ANIWATCH_API_URL
+const BASE_URL = process.env.NEXT_PUBLIC_ANIWATCH_API_URL  // Use a proxy server if needed
 
 // HANDLES SERVER ERRORS, most of time when server was not running due to be using the Free Tier
 axiosRetry(Axios, {
@@ -22,7 +22,10 @@ export default {
         try {
 
             const { data } = await Axios({
-                url: `${BASE_URL}/anime/search?q=${query}${page ? `&page=${page}` : ""}`,
+                url: `${BASE_URL}/api/v2/hianime/search?q=${query}${page ? `&page=${page}` : ""}`,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
 
             return data as MediaInfoFetchedAnimeWatch
@@ -43,7 +46,10 @@ export default {
         try {
 
             const { data } = await Axios({
-                url: `${BASE_URL}/anime/episodes/${episodeId}`,
+                url: `${BASE_URL}/api/v2/hianime/anime/${episodeId}/episodes`,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
             })
 
             return data as EpisodesFetchedAnimeWatch
@@ -64,7 +70,10 @@ export default {
         try {
 
             const { data } = await Axios({
-                url: `${BASE_URL}/anime/episode-srcs?id=${episodeId}${server ? `&server=${server}` : ""}${category ? `&category=${category}` : ""}`,
+                url: `${BASE_URL}/api/v2/hianime/episode/sources?animeEpisodeId=${episodeId}${server ? `&server=${server}` : ""}${category ? `&category=${category}` : ""}`,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
             })
 
             return data as EpisodeLinksAnimeWatch
