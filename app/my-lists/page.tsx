@@ -34,21 +34,21 @@ type FetchListsResultsType = {
 
 }
 
-async function MyListsPage({ params, searchParams }: {
-    params?: unknown,
-    searchParams?: {
+async function MyListsPage({ searchParams }: {
+    searchParams?: Promise<{
         format: string,
         sort: "title_desc" | "title_asc",
         type: "ANIME" | "MANGA" | "tv" | "movie"
-    }
+    }>
 }
 ) {
+    const Params = await searchParams
 
-    const accessTokenCookie = cookies().get("access_token")?.value
+    const accessTokenCookie = (await cookies()).get("access_token")?.value
 
     const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
 
-    const isOnMobile = checkDeviceIsMobile(headers())
+    const isOnMobile = checkDeviceIsMobile(await headers())
 
     let dataBySearchQuery: FetchListsResultsType | null = null
 
@@ -59,7 +59,7 @@ async function MyListsPage({ params, searchParams }: {
         dataBySearchQuery = await anilistUsers.getCurrUserLists({
             userId: userId,
             accessToken: userAuthorization,
-            mediaType: (searchParams?.type == "tv" ? "ANIME" : searchParams?.type || "ANIME") as "ANIME" | "MANGA"
+            mediaType: (Params?.type == "tv" ? "ANIME" : Params?.type || "ANIME") as "ANIME" | "MANGA"
         })
         // console.log(dataBySearchQuery)
         // console.log("yay")
@@ -71,7 +71,7 @@ async function MyListsPage({ params, searchParams }: {
             <NavigationSideBar
                 isOnMobile={isOnMobile}
                 mediaFetched={dataBySearchQuery?.lists}
-                params={searchParams}
+                params={Params}
             />
 
             <section id={styles.main_content_container}>
@@ -84,7 +84,7 @@ async function MyListsPage({ params, searchParams }: {
 
                 <MediasContainer
                     mediaFetched={dataBySearchQuery?.lists}
-                    params={searchParams}
+                    params={Params}
                 />
 
             </section>

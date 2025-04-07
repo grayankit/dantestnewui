@@ -1,5 +1,7 @@
+"use client"
 import { configureStore } from '@reduxjs/toolkit'
 import UserInfoReducer from "@/app/lib/redux/features/manageUserData"
+
 
 export const makeStore = () => {
     return configureStore({

@@ -1,3 +1,4 @@
+"use client"
 import anilistUsers from "@/app/api/anilistUsers"
 import axios from "axios"
 import { addUserInfo, removeUserInfo } from "@/app/lib/redux/features/manageUserData"

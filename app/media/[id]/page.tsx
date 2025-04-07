@@ -32,9 +32,10 @@ import stringToOnlyAlphabetic from '@/app/lib/convertStrings'
 
 export const revalidate = 43200 // revalidate cached data every 12 hours
 
-export async function generateMetadata({ params }: { params: { id: number } }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: number } >}) {
+  const Params = await params
 
-  const mediaData = await anilist.getMediaInfo({ id: params.id, accessToken: headers().get("Authorization")?.slice(7) }) as ApiMediaResults
+  const mediaData = await anilist.getMediaInfo({ id: Params.id, accessToken: (await headers()).get("Authorization")?.slice(7) }) as ApiMediaResults
 
   return {
     title: `${mediaData.title.romaji || mediaData.title.native} | Dantotsu`,
@@ -43,11 +44,13 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
 
 }
 
-export default async function MediaPage({ params, searchParams }: { params: { id: number }, searchParams: { lang?: string } }) {
+export default async function MediaPage({ params, searchParams }: { params: Promise<{ id: number }>, searchParams: Promise<{ lang?: string }> }) {
+  const Params = await params
+  const resolvedSearchParams = await searchParams
 
-  const isOnMobileScreen = checkDeviceIsMobile(headers()) || false
+  const isOnMobileScreen = checkDeviceIsMobile(await headers()) || false
 
-  const mediaInfo = await anilist.getMediaInfo({ id: params.id, accessToken: headers().get("Authorization")?.slice(7) }) as ApiMediaResults
+  const mediaInfo = await anilist.getMediaInfo({ id: Params.id, accessToken: (await headers()).get("Authorization")?.slice(7) }) as ApiMediaResults
 
   // GET MEDIA INFO ON IMDB
   const imdbMediaInfo = await getMediaInfo({
@@ -158,7 +161,7 @@ export default async function MediaPage({ params, searchParams }: { params: { id
           <HeadingTextAndMediaLogo
             imdbMediaLogos={imdbMediaInfo?.logos}
             mediaTitles={mediaInfo.title}
-            preferredLanguage={searchParams.lang}
+            preferredLanguage={resolvedSearchParams.lang}
           />
 
           <div id={styles.genres_and_type_container} className='display_flex_row align_items_center'>

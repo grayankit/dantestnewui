@@ -388,7 +388,7 @@ export default function EpisodesContainer({ imdb, mediaInfo, crunchyrollInitialE
 
           {/* SHOWS A SELECT WITH OTHER RESULTS FOR THIS MEDIA, ANIWATCH DONT GET THE RIGHT RESULT MOST OF TIMES */}
           <AnimatePresence>
-            {(currEpisodesSource == "aniwatch" || "gogoanime" && mediaResultsInfoArray.length > 1) && (
+            {((currEpisodesSource == "aniwatch" || currEpisodesSource == "gogoanime") && mediaResultsInfoArray.length > 1) && (
               <motion.div
                 id={styles.select_media_container}
                 initial={{ height: 0, opacity: 0 }}

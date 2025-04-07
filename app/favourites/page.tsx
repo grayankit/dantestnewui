@@ -12,7 +12,8 @@ export async function generateMetadata() {
     }
 }
 
-function PlaylistPage({ params, searchParams }: { params?: unknown, searchParams?: { format: string, sort: "title_desc" | "title_asc" } }) {
+async function PlaylistPage({ searchParams }: { searchParams: Promise<{ format: string, sort: "title_desc" | "title_asc" } >}) {
+    const Params = await searchParams
 
     return (
         <main id={styles.container}>
@@ -20,7 +21,7 @@ function PlaylistPage({ params, searchParams }: { params?: unknown, searchParams
             <div id={styles.side_nav_container}>
 
                 <NavigationSideBar
-                    params={searchParams}
+                    params={Params}
                 />
 
             </div>
@@ -41,7 +42,7 @@ function PlaylistPage({ params, searchParams }: { params?: unknown, searchParams
                 </div>
 
                 <PlaylistItemsResults
-                    params={searchParams}
+                    params={Params}
                 />
 
             </section>

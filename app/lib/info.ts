@@ -636,13 +636,13 @@ export const fetchAnilistInfo = async (params: Prms): Promise<AnilistInfo> => {
         totalEpisodes:
           data.Media?.episodes ?? data.Media.nextAiringEpisode?.episode - 1,
         currentEpisode:
-          data.Media?.nextAiringEpisode?.episode - 1 ?? data.Media?.episodes,
+          data.Media?.nextAiringEpisode?.episode - 1 ,
         rating: data.Media?.averageScore,
         duration: data.Media?.duration,
         genres: data.Media?.genres,
         season: data.Media?.season,
         studios: data.Media?.studios.edges.map((item) => item.node.name),
-        studiosInfo: await data.Media?.studios.edges.map(async (item) => ({
+        studiosInfo: data.Media?.studios.edges.map(async (item) => ({
           name: item.node.name,
           id: item.node.id,
           isMain: item.isMain,

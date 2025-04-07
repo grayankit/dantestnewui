@@ -18,7 +18,8 @@ type Chat = {
     timestamp: string;
 };
 
-const Page = ({ params }: { params: { waifuid: string; animename: string } }) => {
+const Page = async ({ params }: { params: Promise<{ waifuid: string; animename: string }> }) => {
+    const Params = await params;
     const token = getCookie("token");
     const [message, setMessage] = useState<{ text?: string; isBot: boolean }[]>(() => [{ text: "", isBot: true }]);
     const [prompt, setPrompt] = useState<string>("");
@@ -37,7 +38,7 @@ const Page = ({ params }: { params: { waifuid: string; animename: string } }) =>
 
     const model = genAI.getGenerativeModel({ model: "gemini-pro", safetySettings });
     const sanitizeString = (str: string) => str.replace(/&/g, "&amp;").replace(/%20/g, " ").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-    const waifuid = sanitizeString(params.waifuid);
+    const waifuid = sanitizeString(Params.waifuid);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -66,7 +67,7 @@ const Page = ({ params }: { params: { waifuid: string; animename: string } }) =>
                         Before responding make sure to follow these rules:
                         1. You are a bot designed to act like anime characters.
                         2. You can suggest anime and review anime content.
-                        3. You are ${params.waifuid} from ${params.animename} and should act like ${params.waifuid}.
+                        3. You are ${Params.waifuid} from ${Params.animename} and should act like ${Params.waifuid}.
                         4. If anyone asks who created you, respond with "I am a chatbot under Animetrix that acts like anime characters."
                         ${prompt}`);
                     const res = await result.response;

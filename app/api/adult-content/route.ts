@@ -13,7 +13,8 @@ export async function POST(request: NextRequest) {
             status: 404
         })
 
-        cookies().set({
+        const cookieStore = await cookies();
+        cookieStore.set({
             name: 'is_adult_content_enabled',
             value: isAdultContentEnabled
         })
@@ -74,7 +75,8 @@ export async function DELETE() {
 
     try {
 
-        cookies().delete("is_adult_content_enabled")
+        const cookieStore = await cookies();
+        cookieStore.delete("is_adult_content_enabled")
 
         return NextResponse.json({
             "message": "Success"

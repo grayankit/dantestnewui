@@ -21,15 +21,17 @@ import { AlertWrongMediaVideoOnMediaId } from './components/AlertContainer'
 export const revalidate = 900 // revalidate cached data every 15 minutes
 
 export async function generateMetadata({ params, searchParams }: {
-    params: { id: number }, // ANILIST ANIME ID
-    searchParams: { episode: string, dub?: string } // EPISODE NUMBER, DUBBED
+    params: Promise<{ id: number }>, // ANILIST ANIME ID
+    searchParams: Promise<{ episode: string, dub?: string }> // EPISODE NUMBER, DUBBED
 }) {
+    const Params = await params
+    const SearchParams = await searchParams
 
-    const accessTokenCookie = cookies().get("access_token")?.value
+    const accessTokenCookie = (await cookies()).get("access_token")?.value
 
     const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
 
-    const mediaInfo = await anilist.getMediaInfo({ id: params.id, accessToken: userAuthorization }) as ApiDefaultResult
+    const mediaInfo = await anilist.getMediaInfo({ id: Params.id, accessToken: userAuthorization }) as ApiDefaultResult
 
     let pageTitle = ""
 
@@ -38,42 +40,49 @@ export async function generateMetadata({ params, searchParams }: {
     }
     else {
         // ACTES AS DEFAULT VALUE FOR PAGE PROPS
-        if (Object.keys(searchParams).length === 0) searchParams = { episode: "1" }
+        if (Object.keys(SearchParams).length === 0) SearchParams.episode = "1"
 
-        pageTitle = `Episode ${searchParams.episode} - ${mediaInfo.title.userPreferred} | Dantotsu`
+        pageTitle = `Episode ${SearchParams.episode} - ${mediaInfo.title.userPreferred} | Dantotsu`
     }
 
     return {
         title: mediaInfo ? pageTitle : "Error | Dantotsu",
-        description: !mediaInfo ? "" : `Watch ${mediaInfo.title.userPreferred}${mediaInfo.format != "MOVIE" ? ` - episode ${searchParams.episode} ` : ""}${searchParams.dub ? "Dubbed" : ""}. ${mediaInfo.description ? mediaInfo.description.replace(/(<([^>]+)>)/ig, '') : ""}`,
+        description: !mediaInfo ? "" : `Watch ${mediaInfo.title.userPreferred}${mediaInfo.format != "MOVIE" ? ` - episode ${SearchParams.episode} ` : ""}${SearchParams.dub ? "Dubbed" : ""}. ${mediaInfo.description ? mediaInfo.description.replace(/(<([^>]+)>)/ig, '') : ""}`,
     }
 
 }
 
 export default async function WatchEpisode({ params, searchParams }: {
-    params: { id: number }, // ANILIST ANIME ID
-    searchParams: { episode: string, source: SourceType["source"], q: string, t: string, dub?: string, alert?: string } // EPISODE NUMBER, SOURCE, EPISODE ID, TIME LAST STOP, DUBBED
+    params: Promise<{ id: number }>, // ANILIST ANIME ID
+    searchParams: Promise<{ episode: string, source: SourceType["source"], q: string, t: string, dub?: string, alert?: string }> // EPISODE NUMBER, SOURCE, EPISODE ID, TIME LAST STOP, DUBBED
 }) {
+    const resolvedParams = await params
+    const resolvedSearchParams = await searchParams
 
-    const accessTokenCookie = cookies().get("access_token")?.value
+    const accessTokenCookie = (await cookies()).get("access_token")?.value
 
     const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
 
-    const mediaInfo = await anilist.getMediaInfo({ id: params.id, accessToken: userAuthorization }) as ApiMediaResults
+    const mediaInfo = await anilist.getMediaInfo({ id: resolvedParams.id, accessToken: userAuthorization }) as ApiMediaResults
 
     // ACTES AS DEFAULT VALUE FOR PAGE PROPS
-    if (Object.keys(searchParams).length === 0) searchParams = { episode: "1", source: "aniwatch", q: "", t: "0" }
+    if (Object.keys(resolvedSearchParams).length === 0) {
+        resolvedSearchParams.episode = "1";
+        resolvedSearchParams.source = "aniwatch";
+        resolvedSearchParams.q = "";
+        resolvedSearchParams.t = "0";
+    }
 
     let hadFetchError = false
     let videoIdDoesntMatch = false
 
     if (!mediaInfo) hadFetchError = true
 
-    if (hadFetchError) return <FetchEpisodeError mediaId={params.id} searchParams={searchParams} />
+    if (hadFetchError) return <FetchEpisodeError mediaId={resolvedParams.id} searchParams={resolvedSearchParams} />
 
     let episodeDataFetched: EpisodeLinksGoGoAnime | EpisodeLinksAnimeWatch | null = null
     let episodeSubtitles: EpisodeLinksAnimeWatch["tracks"] | undefined = undefined
-    const subtitleLanguage = cookies().get("subtitle_language")?.value || "English"
+    const subtitleLanguage = (await cookies()).get("subtitle_language")?.value || "English"
     let episodesList: EpisodeAnimeWatch[] | MediaEpisodes[] = []
     let videoUrlSrc: string | undefined = undefined
     let imdbEpisodesList: ImdbEpisode[] = []
@@ -93,15 +102,15 @@ export default async function WatchEpisode({ params, searchParams }: {
         // Compare Episode ID from params with episodes fetched ID
         switch (sourceName) {
             case "aniwatch":
-                const aniwatchEpisodeIdFromParamsIsOnEpisodesList = episodesList.find(episode => episode.episodeId == searchParams.q)
+                const aniwatchEpisodeIdFromParamsIsOnEpisodesList = episodesList.find(episode => episode.episodeId == resolvedSearchParams.q)
 
                 return aniwatchEpisodeIdFromParamsIsOnEpisodesList == undefined
 
             case 'gogoanime':
 
-                const gogoanimeEpisodeIdFromParamsIsOnEpisodesList = episodesList.find(episode => episode.id == searchParams.q)
+                const gogoanimeEpisodeIdFromParamsIsOnEpisodesList = episodesList.find(episode => episode.id == resolvedSearchParams.q)
                 console.log(episodesList)
-                console.log(searchParams.q)
+                console.log(resolvedSearchParams.q)
                 return gogoanimeEpisodeIdFromParamsIsOnEpisodesList == undefined
 
             default:
@@ -110,11 +119,11 @@ export default async function WatchEpisode({ params, searchParams }: {
 
     }
 
-    switch (searchParams.source) {
+    switch (resolvedSearchParams.source) {
 
         case ("gogoanime"):
 
-            episodeDataFetched = await gogoanime.getEpisodeStreamingLinks({ episodeId: searchParams.q, useAlternateLinkOption: true }) as EpisodeLinksGoGoAnime
+            episodeDataFetched = await gogoanime.getEpisodeStreamingLinks({ episodeId: resolvedSearchParams.q, useAlternateLinkOption: true }) as EpisodeLinksGoGoAnime
 
             if (!episodeDataFetched) {
 
@@ -132,28 +141,28 @@ export default async function WatchEpisode({ params, searchParams }: {
             episodesList = await optimizedFetchOnGoGoAnime({
                 textToSearch: mediaInfo.title.english || mediaInfo.title.romaji,
                 only: "episodes",
-                isDubbed: searchParams.dub == "true"
+                isDubbed: resolvedSearchParams.dub == "true"
             }) as MediaEpisodes[]
 
-            videoIdDoesntMatch = compareEpisodeIDs(episodesList, "gogoanime")
+            videoIdDoesntMatch = compareEpisodeIDs(episodesList, resolvedSearchParams.source)
 
             break
 
         case ("aniwatch"):
 
-            if (!searchParams.q) {
+            if (!resolvedSearchParams.q) {
 
                 episodesList = await optimizedFetchOnAniwatch({
                     textToSearch: mediaInfo.title.english || mediaInfo.title.romaji,
                     only: "episodes"
                 }).then((res: any) => res?.episodes) as EpisodeAnimeWatch[]
 
-                searchParams.q = episodesList[0].episodeId
+                resolvedSearchParams.q = episodesList[0].episodeId
 
             }
 
             // fetch episode data
-            episodeDataFetched = await aniwatch.episodesLinks({ episodeId: searchParams.q, category: searchParams.dub == "true" ? "dub" : "sub" }) as EpisodeLinksAnimeWatch
+            episodeDataFetched = await aniwatch.episodesLinks({ episodeId: resolvedSearchParams.q, category: resolvedSearchParams.dub == "true" ? "dub" : "sub" }) as EpisodeLinksAnimeWatch
 
             if (!episodeDataFetched) hadFetchError = true
 
@@ -167,9 +176,9 @@ export default async function WatchEpisode({ params, searchParams }: {
                     textToSearch: mediaInfo.title.english || mediaInfo.title.romaji,
                     only: "episodes",
                     format: mediaInfo.format,
-                    idToMatch: searchParams?.q?.split("?")[0],
-                    isDubbed: searchParams.dub == "true"
-                }).then((res: any) => searchParams?.dub == "true" ? res?.episodes.slice(0, res.episodesDub) : res?.episodes) as EpisodeAnimeWatch[]
+                    idToMatch: resolvedSearchParams?.q?.split("?")[0],
+                    isDubbed: resolvedSearchParams.dub == "true"
+                }).then((res: any) => resolvedSearchParams?.dub == "true" ? res?.episodes.slice(0, res.episodesDub) : res?.episodes) as EpisodeAnimeWatch[]
 
             }
 
@@ -184,29 +193,29 @@ export default async function WatchEpisode({ params, searchParams }: {
 
     }
 
-    const imdbEpisodeInfo = imdbEpisodesList?.find(item => item.episode == Number(searchParams.episode))
+    const imdbEpisodeInfo = imdbEpisodesList?.find(item => item.episode == Number(resolvedSearchParams.episode))
 
     const episodeTitle = () => {
 
-        if (searchParams.source == "gogoanime") {
-            return imdbEpisodesList[Number(searchParams.episode) - 1]?.title || imdbEpisodeInfo?.title || mediaInfo.title.userPreferred || mediaInfo.title.romaji
+        if (resolvedSearchParams.source == "gogoanime") {
+            return imdbEpisodesList[Number(resolvedSearchParams.episode) - 1]?.title || imdbEpisodeInfo?.title || mediaInfo.title.userPreferred || mediaInfo.title.romaji
         }
         else {
-            return (episodesList[Number(searchParams.episode) - 1] as EpisodeAnimeWatch)?.title
+            return (episodesList[Number(resolvedSearchParams.episode) - 1] as EpisodeAnimeWatch)?.title
         }
 
     }
 
     if (hadFetchError) {
         return <FetchEpisodeError
-            mediaId={params.id}
-            searchParams={searchParams}
+            mediaId={resolvedParams.id}
+            searchParams={resolvedSearchParams}
         />
     }
 
-    if (videoIdDoesntMatch && searchParams?.alert == "true") {
+    if (videoIdDoesntMatch && resolvedSearchParams?.alert == "true") {
         return <AlertWrongMediaVideoOnMediaId
-            mediaId={params.id}
+            mediaId={resolvedParams.id}
             mediaTitle={mediaInfo.title.userPreferred}
             mediaFormat={mediaInfo.format}
         />
@@ -221,22 +230,22 @@ export default async function WatchEpisode({ params, searchParams }: {
 
                     <VideoPlayer
                         mediaEpisodes={episodesList}
-                        mediaSource={searchParams.source}
+                        mediaSource={resolvedSearchParams.source}
                         mediaInfo={mediaInfo}
                         videoInfo={{
                             urlSource: videoUrlSrc as string,
                             subtitleLang: subtitleLanguage,
                             subtitlesList: episodeSubtitles,
-                            currentLastStop: searchParams.t || undefined,
+                            currentLastStop: resolvedSearchParams.t || undefined,
                             videoQualities: undefined,
                             // videoQualities: searchParams.source == "gogoanime" ? (episodeData as EpisodeLinksGoGoAnime).sources : undefined
                         }}
                         episodeInfo={{
-                            episodeId: searchParams.q,
+                            episodeId: resolvedSearchParams.q,
                             episodeIntro: (episodeDataFetched as EpisodeLinksAnimeWatch)?.intro,
                             episodeOutro: (episodeDataFetched as EpisodeLinksAnimeWatch)?.outro,
-                            episodeNumber: searchParams.episode,
-                            episodeImg: imdbEpisodesList[Number(searchParams.episode) - 1]?.img?.hd || mediaInfo.bannerImage || null,
+                            episodeNumber: resolvedSearchParams.episode,
+                            episodeImg: imdbEpisodesList[Number(resolvedSearchParams.episode) - 1]?.img?.hd || mediaInfo.bannerImage || null,
                         }}
                     />
 
@@ -257,7 +266,7 @@ export default async function WatchEpisode({ params, searchParams }: {
 
                             ) : (
                                 <React.Fragment>
-                                    EP {searchParams.episode}<span>{" - "}</span><span>{episodeTitle()}</span>
+                                    EP {resolvedSearchParams.episode}<span>{" - "}</span><span>{episodeTitle()}</span>
                                 </React.Fragment>
                             )}
 
@@ -287,14 +296,14 @@ export default async function WatchEpisode({ params, searchParams }: {
 
                         <div className={styles.comment_container}>
 
-                            <h2>COMMENTS {mediaInfo.format != "MOVIE" && (`FOR EPISODE ${searchParams.episode}`)}</h2>
+                            <h2>COMMENTS {mediaInfo.format != "MOVIE" && (`FOR EPISODE ${resolvedSearchParams.episode}`)}</h2>
 
                             {/* ONLY ON DESKTOP */}
                             <CommentsSection
                                 mediaInfo={mediaInfo}
                                 isOnWatchPage={true}
-                                episodeId={searchParams.q}
-                                episodeNumber={Number(searchParams.episode)}
+                                episodeId={resolvedSearchParams.q}
+                                episodeNumber={Number(resolvedSearchParams.episode)}
                             />
                         </div>
 
@@ -306,13 +315,13 @@ export default async function WatchEpisode({ params, searchParams }: {
 
                     {mediaInfo.format != "MOVIE" && (
                         <EpisodesListContainer
-                            sourceName={searchParams.source}
+                            sourceName={resolvedSearchParams.source}
                             anilistLastEpisodeWatched={mediaInfo.mediaListEntry?.progress || undefined}
                             episodesList={episodesList}
                             nextAiringEpisodeInfo={mediaInfo.nextAiringEpisode}
                             episodesListOnImdb={imdbEpisodesList.length > 0 ? imdbEpisodesList : undefined}
-                            mediaId={params.id}
-                            activeEpisodeNumber={Number(searchParams.episode)}
+                            mediaId={resolvedParams.id}
+                            activeEpisodeNumber={Number(resolvedSearchParams.episode)}
                         />
                     )}
 
@@ -321,13 +330,13 @@ export default async function WatchEpisode({ params, searchParams }: {
 
                         <div className={styles.comment_container}>
 
-                            <h2>COMMENTS {mediaInfo.format != "MOVIE" && (`FOR EPISODE ${searchParams.episode}`)}</h2>
+                            <h2>COMMENTS {mediaInfo.format != "MOVIE" && (`FOR EPISODE ${resolvedSearchParams.episode}`)}</h2>
 
                             <CommentsSection
                                 mediaInfo={mediaInfo}
                                 isOnWatchPage={true}
-                                episodeId={searchParams.q}
-                                episodeNumber={Number(searchParams.episode)}
+                                episodeId={resolvedSearchParams.q}
+                                episodeNumber={Number(resolvedSearchParams.episode)}
                             />
 
                         </div>

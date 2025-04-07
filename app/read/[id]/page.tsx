@@ -14,30 +14,34 @@ import { FetchEpisodeError } from '@/app/components/MediaFetchErrorPage'
 export const revalidate = 1800 // revalidate cached data every 30 minutes
 
 export async function generateMetadata({ params, searchParams }: {
-    params: { id: number }, // ANILIST MANGA ID
-    searchParams: { chapter: string, source: string, q: string } // EPISODE NUMBER, SOURCE, EPISODE ID
+    params: Promise<{ id: number }>, // ANILIST MANGA ID
+    searchParams: Promise<{ chapter: string, source: string, q: string }> // EPISODE NUMBER, SOURCE, EPISODE ID
 }) {
+    const Params = await params
+    const SearchParams = await searchParams
 
-    const mediaInfo = await anilist.getMediaInfo({ id: params.id }) as ApiDefaultResult
+    const mediaInfo = await anilist.getMediaInfo({ id: Params.id }) as ApiDefaultResult
 
     return {
-        title: !mediaInfo ? "Error | Dantotsu" : `Chapter ${searchParams.chapter} - ${mediaInfo.title.userPreferred} | Dantotsu`,
-        description: `Read ${mediaInfo.title.userPreferred} - Chapter ${searchParams.chapter}. ${mediaInfo.description && mediaInfo.description}`,
+        title: !mediaInfo ? "Error | Dantotsu" : `Chapter ${SearchParams.chapter} - ${mediaInfo.title.userPreferred} | Dantotsu`,
+        description: `Read ${mediaInfo.title.userPreferred} - Chapter ${SearchParams.chapter}. ${mediaInfo.description && mediaInfo.description}`,
     }
 }
 
 async function ReadChapter({ params, searchParams }: {
-    params: { id: number }, // ANILIST ANIME ID
-    searchParams: { chapter: string, source: "mangadex", q: string, page: string } // EPISODE NUMBER, SOURCE, EPISODE ID, LAST PAGE 
+    params: Promise<{ id: number }>, // ANILIST ANIME ID
+    searchParams: Promise<{ chapter: string, source: "mangadex", q: string, page: string }> // EPISODE NUMBER, SOURCE, EPISODE ID, LAST PAGE 
 }) {
+    const resolvedParams = await params
+    const resolvedSearchParams = await searchParams
 
-    const mediaInfo = await anilist.getMediaInfo({ id: params.id }) as ApiMediaResults
+    const mediaInfo = await anilist.getMediaInfo({ id: resolvedParams.id }) as ApiMediaResults
 
     let currChapterInfo: MangaChapters | undefined = undefined
     let allAvailableChaptersList: MangaChapters[] | undefined = undefined
     let hadFetchError = false
 
-    const currMangaChapters = await manga.getChapterPages({ chapterId: searchParams.q }) as MangaPages[]
+    const currMangaChapters = await manga.getChapterPages({ chapterId: resolvedSearchParams.q }) as MangaPages[]
 
     const mangaTitleUrlFrindly = stringToUrlFriendly(mediaInfo.title.userPreferred).toLowerCase()
 
@@ -52,15 +56,15 @@ async function ReadChapter({ params, searchParams }: {
 
     }
 
-    if (hadFetchError) return <FetchEpisodeError mediaId={params.id} searchParams={searchParams} />
+    if (hadFetchError) return <FetchEpisodeError mediaId={resolvedParams.id} searchParams={resolvedSearchParams} />
 
     allAvailableChaptersList = mangaInfo.chapters.filter(item => item.pages != 0)
 
-    currChapterInfo = allAvailableChaptersList.find((item) => item.id == searchParams.q)
+    currChapterInfo = allAvailableChaptersList.find((item) => item.id == resolvedSearchParams.q)
 
     if (!currMangaChapters || !allAvailableChaptersList) hadFetchError = true
 
-    if (hadFetchError) return <FetchEpisodeError mediaId={params.id} searchParams={searchParams} />
+    if (hadFetchError) return <FetchEpisodeError mediaId={resolvedParams.id} searchParams={resolvedSearchParams} />
 
     return (
         <main id={styles.container}>
@@ -78,7 +82,7 @@ async function ReadChapter({ params, searchParams }: {
 
             <ChaptersPages
                 chapters={currMangaChapters}
-                initialPage={Number(searchParams.page) || undefined}
+                initialPage={Number(resolvedSearchParams.page) || undefined}
             />
 
             <div id={styles.all_chapters_container}>
@@ -95,8 +99,8 @@ async function ReadChapter({ params, searchParams }: {
                 </MediaCardExpanded.Container>
 
                 <ChaptersListContainer
-                    mediaId={params.id}
-                    currChapterId={searchParams.q}
+                    mediaId={resolvedParams.id}
+                    currChapterId={resolvedSearchParams.q}
                     chaptersList={allAvailableChaptersList!}
                 />
 

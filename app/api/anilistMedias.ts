@@ -191,13 +191,14 @@ export default {
             .map((item: any) => ({
               id: item.id.toString(),
               malId: item.idMal,
-              title:
-                {
-                  romaji: item.title.romaji,
-                  english: item.title.english,
-                  native: item.title.native,
-                  userPreferred: item.title.userPreferred,
-                } || item.title.romaji,
+              title: item.title
+                ? {
+                    romaji: item.title.romaji,
+                    english: item.title.english,
+                    native: item.title.native,
+                    userPreferred: item.title.userPreferred,
+                  }
+                : item.title?.romaji,
               coverImage:
                 item.coverImage.extraLarge ??
                 item.coverImage.large ??
@@ -543,13 +544,12 @@ export default {
             .map((item: any) => ({
               id: item.id.toString(),
               malId: item.idMal,
-              title:
-                {
-                  romaji: item.title.romaji,
-                  english: item.title.english,
-                  native: item.title.native,
-                  userPreferred: item.title.userPreferred,
-                } || item.title.romaji,
+              title: {
+                romaji: item.title?.romaji ?? "",
+                english: item.title?.english ?? "",
+                native: item.title?.native ?? "",
+                userPreferred: item.title?.userPreferred ?? item.title?.romaji ?? "",
+              },
               coverImage:
                 item.coverImage.extraLarge ??
                 item.coverImage.large ??

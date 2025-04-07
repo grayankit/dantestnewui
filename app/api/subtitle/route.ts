@@ -12,8 +12,9 @@ export async function POST(request: NextRequest) {
         }, {
             status: 404
         })
+        const cookieStore = await cookies();
 
-        cookies().set({
+        cookieStore.set({
             name: 'subtitle_language',
             value: subtitleLanguage
         })
@@ -73,8 +74,9 @@ export async function GET(request: NextRequest) {
 export async function DELETE() {
 
     try {
+        const cookieStore = await cookies();
 
-        cookies().delete("subtitle_language")
+        cookieStore.delete("subtitle_language")
 
         return NextResponse.json({
             "message": "Success"

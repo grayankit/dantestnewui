@@ -12,8 +12,9 @@ export async function POST(request: NextRequest) {
         }, {
             status: 404
         })
+        const cookieStore = await cookies();
 
-        cookies().set({
+        cookieStore.set({
             name: 'wrong_media_enabled',
             value: `${isPlayWrongMediaEnabled}`
         })
@@ -73,8 +74,8 @@ export async function GET(request: NextRequest) {
 export async function DELETE() {
 
     try {
-
-        cookies().delete("wrong_media_enabled")
+        const cookieStore = await cookies();
+        cookieStore.delete("wrong_media_enabled")
 
         return NextResponse.json({
             "message": "Success"

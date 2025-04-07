@@ -6,9 +6,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import NewsCard from '@/app/news/components/NewsCard'
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: string } >}) {
+    const Params = await params
 
-    const newsInfo = await news.getNewsInfo({ id: params.id }) as NewsArcticle
+    const newsInfo = await news.getNewsInfo({ id: Params.id }) as NewsArcticle
 
     return {
         title: `${newsInfo ? newsInfo.title : "Error"} | Dantotsu`,
@@ -16,9 +17,10 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     }
 }
 
-async function NewPage({ params }: { params: { id: string } }) {
+async function NewPage({ params }: { params: Promise<{ id: string } >}) {
+    const Params = await params
 
-    const newsInfo = await news.getNewsInfo({ id: params.id }) as NewsArcticle
+    const newsInfo = await news.getNewsInfo({ id: Params.id }) as NewsArcticle
     const recentNewsList = await news.getNews({}) as News[]
 
     return (

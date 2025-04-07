@@ -31,7 +31,7 @@ export default async function Home() {
 
   // const isOnMobileScreen = checkDeviceIsMobile(headers())
 
-  const accessTokenCookie = cookies().get("access_token")?.value
+  const accessTokenCookie = (await cookies()).get("access_token")?.value
 
   const userAuthorization = accessTokenCookie ? JSON.parse(accessTokenCookie).accessToken : undefined
 

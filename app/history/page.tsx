@@ -12,7 +12,8 @@ export async function generateMetadata() {
     }
 }
 
-function HistoryPage({ params, searchParams }: { params?: unknown, searchParams?: { format: string, sort: "title_desc" | "title_asc" } }) {
+async function HistoryPage({ searchParams }: { searchParams: Promise<{ format: string, sort: "title_desc" | "title_asc" }> } ) {
+    const Params = await searchParams
 
     return (
         <main id={styles.container}>
@@ -20,7 +21,7 @@ function HistoryPage({ params, searchParams }: { params?: unknown, searchParams?
             <div id={styles.side_nav_container}>
 
                 <NavigationSideBar
-                    params={searchParams}
+                    params={Params}
                 />
 
             </div>
@@ -40,7 +41,7 @@ function HistoryPage({ params, searchParams }: { params?: unknown, searchParams?
 
                 </div>
 
-                <KeepWatchingResults params={searchParams} />
+                <KeepWatchingResults params={Params} />
 
             </section>
 
