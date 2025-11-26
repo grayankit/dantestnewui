@@ -26,7 +26,7 @@ export default function NavBar() {
                 className="rounded-full max-w-fit"
               />
             </span>
-            an<span className="text-purple-600">kaiser</span>
+            an<span className="text-purple-600">totsu</span>
           </h1>
         </Link>
       </NavbarBrand>
